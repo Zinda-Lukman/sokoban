@@ -787,25 +787,32 @@ document.addEventListener("DOMContentLoaded", () => {
     dialogClass: "no-close"
   });
 
+  // Track completed levels
+  var completedLevels = JSON.parse(localStorage.getItem('sokoban_completed_levels')) || [];
+
   function createNewGame(level) {
     $("#dialog").dialog("close");
     $("#canvas").show();
     sokoban = new Sokoban(level);
     board = sokoban.board;
-    $("#steps-taken").text(board.stepCount);
-    $("#box-pushes").text(board.boxPushes);
-    $("#level").text(sokoban.level + 1);
+    $("#header-steps").text(board.stepCount);
+    $("#header-pushes").text(board.boxPushes);
+    $("#header-level").text(sokoban.level + 1);
     $("#select-level").val(sokoban.level + 1);
   }
 
-  $("#reset-level").click(event => {
+  $("#reset-level-btn").click(event => {
     createNewGame(sokoban.level);
   });
 
   $("#skip-level").click(event => {
-    if (sokoban.level < 30) {
+    if (sokoban.level < __WEBPACK_IMPORTED_MODULE_1__levels_js__["a" /* default */].length - 1) {
       createNewGame(sokoban.level + 1);
     }
+  });
+
+  $("#reset-game-btn").click(event => {
+    createNewGame(0);
   });
 
   $(".reset-game").click(event => {
@@ -817,7 +824,42 @@ document.addEventListener("DOMContentLoaded", () => {
     createNewGame(parseInt(level - 1));
   });
 
-  document.addEventListener("keydown", () => {
+  // Minimal UI update functions (kept in bundle for runtime)
+  function updateLevelSelectOptions() {
+    $("#select-level option").each(function() {
+      const optionLevel = parseInt($(this).val()) - 1;
+      const baseLabel = (optionLevel + 1).toString();
+      if (completedLevels.includes(optionLevel)) {
+        $(this).prop('disabled', false).css('opacity', '1').text(baseLabel + ' ✓');
+      } else if (optionLevel > 0) {
+        $(this).prop('disabled', true).css('opacity', '0.5').text(baseLabel + ' 🔒');
+      } else {
+        $(this).prop('disabled', false).css('opacity', '1').text(baseLabel);
+      }
+    });
+
+    const progressPercent = completedLevels.length / __WEBPACK_IMPORTED_MODULE_1__levels_js__["a" /* default */].length * 100;
+    $('#progress-fill').css('width', progressPercent + '%');
+    $('.progress-text').text(Math.round(progressPercent) + '% Complete');
+
+    $('#header-level').text(sokoban.level + 1);
+    $('#header-steps').text(board.stepCount);
+    $('#header-pushes').text(board.boxPushes);
+  }
+
+  function updateAchievements() {
+    const achievementList = $('#achievement-list');
+    achievementList.empty();
+    // Simple achievements rendering
+    const firstUnlocked = completedLevels.includes(0) ? 'unlocked' : 'locked';
+    achievementList.append(`<div class="achievement ${firstUnlocked}"><div class="achievement-title">🎯 First Steps</div><div class="achievement-desc">Complete your first level</div></div>`);
+  }
+
+  // Initialize UI
+  updateLevelSelectOptions();
+  updateAchievements();
+
+  document.addEventListener("keydown", (event) => {
     event.preventDefault();
       switch(event.keyCode) {
         case 37:
@@ -837,12 +879,12 @@ document.addEventListener("DOMContentLoaded", () => {
           break;
       }
 
-      $("#steps-taken").text(board.stepCount);
-      $("#box-pushes").text(board.boxPushes);
+      $("#header-steps").text(board.stepCount);
+      $("#header-pushes").text(board.boxPushes);
 
       if (sokoban.board.gameOver()) {
 
-        if(sokoban.level === 29) {
+        if(sokoban.level === __WEBPACK_IMPORTED_MODULE_1__levels_js__["a" /* default */].length - 1) {
           $("#canvas").hide();
           $("#dialog").dialog("open");
           return;

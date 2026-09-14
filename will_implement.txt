@@ -1,0 +1,86 @@
+- organise the game into various menu items, level where at fifteen levels themes change
+- undo features users will pay for them or gat rewarded by refering fellows or watch ads for ten undos
+- ad solution video where a user pays for it
+- add ads or make users pay premium to remove them
+- Make the game playable on smart, add buttons to move into sides
+
+
+Okay, i want to make this a telegram mini app game:
+- Get and Intergrate a free database option where a user's progress in the game is stored anytime he starts the game into that database
+- Users are give 30 undo max abilities, incase of usage, they start refilling every 10 minutes until they reach the max 30.
+- Incase of exhaustion of these feature, a user can buy more undos with telegram stars ( 1 undo = 2 stars or changeable anytime)
+
+- Create a referral system and users can also get more undos by refering their friends to the  as set by the game admin
+Add a share button where a user can share there progress with the screenshot of the completed level and percentage of users who were able to complete Intergrate
+A leaderboard with users who completed more levels on top
+For the solution button, a user should be required to pay a given amount of stars and on pay a video with the solution of that level is sent to that user through telegram
+Skipping to new levels without completing the previous one should also be possible after paying a given amount of 
+Ads between level transition from adsmod or any provider, but removable after buyinng app premium with stars
+
+- Remove undo related buttons, star and referral from the game section and put them below the progress counter time and make them small
+- Create a separate button for the leaderboard on the main menu and remove it from the acchievements folder
+- share should be a pop modal, sharing photo with completed level screenshot and caption like:
+ 'Come Look at the Genius, 
+ only __% completed
+ level __ of soKoban,
+
+ And I am part of this club.
+ 
+ Come Lets See how WISE you Are'
+
+ This show be sharable with user's refferal link to platforms like telegram, twitter, facebook, sky etc
+
+ Remove acchievements, leaderboard, and instructions buttons from the main menu.
+ Remove all data or information in the footer, put it in the information shown when instructions button is clicked
+ Implement a fixed bottom navigation footer component mimicking the YouTube mobile app layout. 
+ Use HTML and CSS flexbox to distribute buttons evenly across the width. 
+ Ensure the body has bottom padding so the fixed footer never overlaps the scrollable page content. 
+ Keep it clean and responsive.
+
+
+ After completing a level, a modal window should pop up with the congradulations
+ what and a jpg at `PNG/burgundy.jpg`, and continue( moves the user to the next level), 
+ share button (which will share an image i will specify at a specific location in storage for this level),
+ and retry level( which will allow the user to replay the current level). Make the share button be in the 
+ middle and bigger than the other two buttons. This modal window should be mobile friendly since this app
+ is a telegram mini app and should fit and be responsive on any mobile interfere and should mantain this
+ mobile apperance on any screen.
+
+
+ Go through the entire app layout and ensure its mobile friendly and mobile responsive, since
+ this is a telegram mini app its going to be playable through telegram mobile mostly, ensure it maintains this mobile
+ friendly layout when being played on the wide pc version.
+
+Remove the undo button from options dropdown and add it to the gameplay area.
+Find emojis suitable for all buttons in the gameplay area.
+
+Make it that when a undos of a user get exhausted,
+the text on 'undo' button changes for 'undo' to'BUY UNDOS' and 
+when a user clicks it, a closable modal appears with options for him
+to buy undos with packages like '20 undo for 10 stars' 
+and a buy button on each package, the last package should allow a user to specify a given number of undos at a give price
+
+this game is mainly to be played on mobile phones on telegram via smartphones, i want you to create game control buttons that only appears
+in the game area on smartphones. The buttons should be transparent but visible with on click moves to the specified direction and clustered 
+together in a round transparent frame si
+
+for the skip button in the game area, create a limited number of skips to a new level even before completing the previous one(the skipped 
+level should be replayable later but should have a different apperance on the select level menu), 
+these skips only apply for skips where the current level has not been completed,
+a user should be able to see his available skips, every new user should be given 3 free skips to new levels while not completed current,
+If user moves to a previous level or exits the game, all their progress or movements in the current level should be saved and retrieved
+on there return even if they are coming from a previous already completed level. Incase the skips get exhausted, a modal with packages to 
+buy new skips should appear, available skips should be reflected in header in the place of steps(remove steps tracking)
+
+for restart, make a new user have a limit of 3 restarts, after they are exhausted, on clicking the button a modal like that of skip should appear with packages and allow the user to purchase new restarts,
+every 24 hours a user should be given a new restart upto the max of three, the purchase modal that appears after exhaustion should show a progress bar and time when the next free restart will be available  
+
+
+- Wire Supabase configuration and provide exact SQL to create the users table
+- Add a small UI to watch refill progress (time until next undo)
+- Integrate with Telegram Payments / official stars API for real transactions but with testing options with non real stars
+
+- Implement leaderboard + share/screenshot flow (Telegram Bot API needed to send images).
+- Add referral tracking and UI.
+- Replace the payment stub with a server-client flow using Telegram’s Payments API.
+- Footer buttons with home, acchievements, and learder. Home page with start and how to play

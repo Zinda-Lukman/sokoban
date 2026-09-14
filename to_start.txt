@@ -1,0 +1,10 @@
+- fix html rendering add caps
+- make the diplay of every thing like buttons more gamish
+- compile all information in header to in one button
+- make footer invisible on game screen
+- fix toasts to make some longer and also restyle it
+- fix toothtips
+- headerMenu
+- button disabling collusion
+- Button and header colours
+- will search for better svgs

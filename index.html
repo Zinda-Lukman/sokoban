@@ -1,132 +1,497 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Sokoban - Boris Paskhaver</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sokoban - Modern Puzzle Game</title>
 
+    <!-- Modern UI Libraries -->
     <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>
-
-    <script
-    src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
-    integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
-    crossorigin="anonymous">
-    </script>
-
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <!-- Modern CSS -->
+    <link rel="stylesheet" href="style/theme.css">
+    <link rel="stylesheet" href="style/gamify.css">
+    <link rel="stylesheet" href="style/info-button.css">
 
 
-    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Modern Header with Glass Effect -->
+    <header class="modern-header">
+        <div class="header-content">
+            <div class="header-brand-row">
+                <div class="logo">
+                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                        <rect width="40" height="40" rx="8" fill="currentColor" class="logo-bg"/>
+                        <path d="M12 20 L20 12 L28 20 L20 28 Z" fill="white"/>
+                        <path d="M16 16 L20 12 L24 16 L20 20 Z" fill="currentColor" class="logo-accent"/>
+                    </svg>
+                    <h1>Sokoban</h1>
+                </div>
+            </div>
+            <div class="header-stats-row">
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Level:</span>
+                        <span class="stat-value" id="header-level">1</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Skips:</span>
+                        <span class="stat-value" id="header-steps">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Undos:</span>
+                        <span class="stat-value" id="header-undos">30</span>
+                    </div>
 
-  </head>
-
-  <body>
-
-    <header>
-      <h1>Sokoban</h1>
+                    <div class="stat-item">
+                        <span class="stat-label">Stars:</span>
+                        <span class="stat-value" id="header-stars">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Restarts:</span>
+                        <span class="stat-value" id="header-restarts">3</span>
+                    </div>
+                    
+                    <div class="header-actions">
+                        <div class="header-menu">
+                            <button class="btn btn-small btn-outline header-menu-toggle" id="header-actions-btn" aria-expanded="false" aria-haspopup="menu">
+                                <span class="header-menu-label">Actions</span>
+                                <span class="header-menu-caret">▾</span>
+                            </button>
+                            <!-- Header actions moved to modal (see index for modal markup) -->
+                            <!-- Original inline panel removed; actions appear in the modal now -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
 
-    <div class="middle-container">
+    <!-- Main Game Container -->
+    <main class="game-container">
+        <!-- Initial Navigation Screen -->
+    <section class="panel reveal stage" aria-label="Game launch panel" id="initial-navigation">
+      
+      <div class="scan" aria-hidden="true"></div>
 
-      <div class="instructions">
-        <h2>Welcome!</h2>
-
-        <p>Sokoban is a popular puzzle game developed by Hiroyuki
-        Imabayashi in 1981. The goal of the game is to move all boxes on
-        the screen to their designated checkpoints.</p>
-
-        <h2>Instructions</h2>
-
-        <p>Use the arrow keys on the keyboard to move the player
-        around the grid. The next level will load when all
-        boxes are placed on checkpoints.</p>
-
-        <p>If you get stuck, click the Reset Level button on the
-        right to restart the level.</p>
-
-        <h2>About</h2>
-
-        <p>Sokoban is built using Easel.js, a library for
-        interacting with HTML5's canvas element. Explore the
-        project's code at <a href="http://www.github.com/paskhaver/sokoban" target="_blank">GitHub</a>.</p>
-
-
-      </div>
-      <canvas id="canvas">
-
-      </canvas>
-
-      <div id="dialog">
-        <h3>Congratulations! You won!</h3>
-
-        <img src="PNG/burgundy.jpg" width="400">
-
-        <button class="reset-game">Play Again</button>
+      <div class="cta-wrap">
+        <button class="start-btn" id="start-game-btn" type="button" aria-label="Start Game">
+          <span class="btn-inner">
+            <span class="play-icon" aria-hidden="true"></span>
+            Start Game
+          </span>
+        </button>
       </div>
 
-      <div class="bonus">
-        <h2>Level:
-          <select id="select-level">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-            <option value="13">13</option>
-            <option value="14">14</option>
-            <option value="15">15</option>
-            <option value="16">16</option>
-            <option value="17">17</option>
-            <option value="18">18</option>
-            <option value="19">19</option>
-            <option value="20">20</option>
-            <option value="21">21</option>
-            <option value="22">22</option>
-            <option value="23">23</option>
-            <option value="24">24</option>
-            <option value="25">25</option>
-            <option value="26">26</option>
-            <option value="27">27</option>
-            <option value="28">28</option>
-            <option value="29">29</option>
-            <option value="30">30</option>
-          </select>
-          of 30</h2>
-        <h2>Steps Taken: <span id="steps-taken">0</span></h2>
-        <h2>Box Pushes: <span id="box-pushes">0</span></h2>
-        <button id="reset-level">Reset Level</button>
-        <button id="skip-level">Skip Level</button>
-        <button class="reset-game">Reset Game</button>
-      </div>
+      <div class="status" id="status" aria-live="polite"></div>
+    </section>
 
+        <!-- Level Selection Screen -->
+        <section class="level-selection screen" id="level-selection" style="display: none;">
+            <div class="level-selection-content">
+                <h1>Select Level</h1>
+                <div class="level-grid" id="level-grid">
+                    <!-- Levels will be populated dynamically -->
+                </div>
+                <button class="btn btn-secondary" id="back-to-nav-btn">Back to Menu</button>
+            </div>
+        </section>
+
+        <!-- Game Screen -->
+        <section class="game-screen screen" id="game-screen" style="display: none;">
+            
+            <!-- Game Canvas Area -->
+            <section class="game-area">
+                <canvas id="canvas" class="game-canvas"></canvas>
+                <!--
+                Mobile controls. Hidden by default; only shown on phones / touch devices
+                via the .touch-mode class on <html> (set in JS based on pointer + viewport).
+                -->
+                
+                <!-- Victory Dialog -->
+                <div id="win-dialog" class="victory-dialog" hidden>
+                    <div class="victory-card">
+                        <img class="victory-image" src="PNG/burgundy.jpg" alt="Congratulations illustration">
+                        <div class="victory-body">
+                            <div class="trophy-icon">🎉</div>
+                            <h3>Congratulations!</h3>
+                            <p>You completed level <span id="completion-level-number">1</span>.</p>
+                            <div class="victory-actions">
+                                <button class="btn btn-secondary victory-action-btn" id="continue-level-btn">Continue</button>
+                                <button class="btn btn-primary btn-large victory-action-btn share-action" id="share-level-btn">Share</button>
+                                <button class="btn btn-outline victory-action-btn" id="retry-level-btn">Retry</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </section>
+            
+            <!-- Game Control Buttons -->
+            <div class="game-controls">
+                <button class="btn btn-outline" id="header-undo-btn" aria-label="Undo" data-tooltip="Undo">
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M12 4V1L7 6l5 5V8c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5H6c0 3.87 3.13 7 7 7s7-3.13 7-7-3.13-7-7-7z"></path>
+                    </svg>
+                </button>
+
+                <button class="btn btn-outline" id="skip-level-btn" aria-label="Skip Level" data-tooltip="Skip Level">
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                        <g fill="currentColor">
+                            <polygon points="6,5 14,12 6,19" />
+                            <rect x="16" y="5" width="2" height="14" rx="1" />
+                        </g>
+                    </svg>
+                </button>
+
+                <button class="btn btn-outline" id="restart-level-btn" aria-label="Restart" data-tooltip="Restart">
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M12 6V3L8 7l4 4V8a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z"></path>
+                    </svg>
+                </button>
+
+                <button class="btn btn-outline" id="solution-btn" aria-label="Solution" data-tooltip="Show Solution">
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M9 2a7 7 0 0 1 6 10c0 2-1 3-2 4v2H7v-2c-1-1-2-2-2-4a7 7 0 0 1 6-10zM11 20h2v2h-2z"/>
+                    </svg>
+                </button>
+
+            </div>
+
+             <div class="touch-controls" id="touch-controls" aria-hidden="true">
+                    <div class="dpad-row">
+                        <button class="sbtn" data-dir="left"  aria-label="Move left">
+                        <svg viewBox="0 0 24 24" class="sbtn-arrow" aria-hidden="true">
+                            <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
+                        </svg>
+                        </button>
+                        <button class="sbtn" data-dir="up"    aria-label="Move up">
+                        <svg viewBox="0 0 24 24" class="sbtn-arrow" aria-hidden="true">
+                            <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6 1.41 1.41z"/>
+                        </svg>
+                        </button>
+                        <button class="sbtn" data-dir="down"  aria-label="Move down">
+                        <svg viewBox="0 0 24 24" class="sbtn-arrow" aria-hidden="true">
+                            <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                        </svg>
+                        </button>
+                        <button class="sbtn" data-dir="right" aria-label="Move right">
+                        <svg viewBox="0 0 24 24" class="sbtn-arrow" aria-hidden="true">
+                            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                        </svg>
+                        </button>
+                    </div>
+                    </div>
+        </section>
+
+        <!-- Instructions Screen -->
+        <section class="instructions-screen screen" id="instructions-screen" style="display: none;">
+            <div class="instructions-content">
+                <h2>Game Instructions</h2>
+                <div class="instruction-items">
+                    <div class="instruction-item">
+                        <div class="instruction-text">
+                            <h3>How to Play</h3>
+                            <h1>⬆️⬇️➡️⬅️</h1>
+                            <p>Use the arrow keys or touch controls to move the player through each puzzle.</p>
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-icon">📦</div>
+                        <div class="instruction-text">
+                            <h3>Push Boxes</h3>
+                            <p>Push every box onto a checkpoint square to complete the level.</p>
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-icon">✅</div>
+                        <div class="instruction-text">
+                            <h3>Game Flow</h3>
+                            <p>Use undos, referrals, and stars to keep progressing. Leaderboards and achievements are available from the bottom navigation.</p>
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-icon">📱</div>
+                        <div class="instruction-text">
+                            <h3>Mini App Notes</h3>
+                            <p>This layout is designed for Telegram and mobile screens, with responsive controls and a compact bottom navigation bar.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="back-from-instructions-btn">Back to Menu</button>
+            </div>
+        </section>
+
+        <!-- Achievements Screen -->
+        <section class="achievements-screen screen" id="achievements-screen" style="display: none;">
+            <div class="achievements-content">
+                <h2>Achievements</h2>
+                <div class="achievement-list" id="achievement-list">
+                    <!-- Achievements will be populated dynamically -->
+                </div>
+                <button class="btn btn-secondary" id="back-from-achievements-btn">Back to Menu</button>
+            </div>
+        </section>
+    </main>
+
+    <nav class="mobile-bottom-nav" aria-label="Bottom navigation">
+        <button class="nav-item" id="home-nav-btn" type="button">🏠<span>Home</span></button>
+        <button class="nav-item" id="instructions-btn" type="button">ℹ️<span>ABOUT</span></button>
+        <button class="nav-item" id="achievements-btn" type="button">🏅<span>Achievement</span></button>
+        <button class="nav-item" id="leaderboard-main-btn" type="button">📊<span>LeaderBoard</span></button>
+    </nav>
+
+    <div id="undo-shop-modal" class="undo-shop-modal" hidden>
+        <div class="undo-shop-card" role="dialog" aria-modal="true" aria-labelledby="undo-shop-title">
+            <div class="undo-shop-header">
+                <h3 id="undo-shop-title">Buy Undos</h3>
+                <button class="undo-shop-close" id="close-undo-shop-btn" type="button" aria-label="Close">✕</button>
+            </div>
+            <p class="undo-shop-subtitle">You are out of undos. Choose a package below.</p>
+            <div class="undo-shop-packages">
+                <div class="undo-shop-package">
+                    <div>
+                        <strong>5 undos</strong>
+                        <span>3 stars</span>
+                    </div>
+                    <button class="btn btn-primary undo-shop-buy-btn" data-undos="5" data-cost="3" type="button">Buy</button>
+                </div>
+                <div class="undo-shop-package">
+                    <div>
+                        <strong>10 undos</strong>
+                        <span>6 stars</span>
+                    </div>
+                    <button class="btn btn-primary undo-shop-buy-btn" data-undos="10" data-cost="6" type="button">Buy</button>
+                </div>
+                <div class="undo-shop-package">
+                    <div>
+                        <strong>20 undos</strong>
+                        <span>10 stars</span>
+                    </div>
+                    <button class="btn btn-primary undo-shop-buy-btn" data-undos="20" data-cost="10" type="button">Buy</button>
+                </div>
+                <div class="undo-shop-package custom-package">
+                    <div class="custom-package-row">
+                        <label for="custom-undo-amount">Custom undos</label>
+                        <input id="custom-undo-amount" type="number" min="1" max="100" value="8">
+                    </div>
+                    <div class="custom-package-price">Admin price: <strong>1 star each</strong></div>
+                    <button class="btn btn-secondary" id="buy-custom-undos-btn" type="button">Buy Custom</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <footer>
+    <div id="skip-shop-modal" class="undo-shop-modal" hidden>
+        <div class="undo-shop-card" role="dialog" aria-modal="true" aria-labelledby="skip-shop-title">
+            <div class="undo-shop-header">
+                <h3 id="skip-shop-title">Buy Skips</h3>
+                <button class="undo-shop-close" id="close-skip-shop-btn" type="button" aria-label="Close">✕</button>
+            </div>
+            <p class="undo-shop-subtitle">You have no skips left. Choose a package below.</p>
+            <div class="undo-shop-packages">
+                <div class="undo-shop-package">
+                    <div>
+                        <strong>1 skip</strong>
+                        <span>3 stars</span>
+                    </div>
+                    <button class="btn btn-primary undo-shop-buy-btn skip-shop-buy-btn" data-skips="1" data-cost="3" type="button">Buy</button>
+                </div>
+                <div class="undo-shop-package">
+                    <div>
+                        <strong>3 skips</strong>
+                        <span>8 stars</span>
+                    </div>
+                    <button class="btn btn-primary undo-shop-buy-btn skip-shop-buy-btn" data-skips="3" data-cost="8" type="button">Buy</button>
+                </div>
+                <div class="undo-shop-package">
+                    <div>
+                        <strong>5 skips</strong>
+                        <span>12 stars</span>
+                    </div>
+                    <button class="btn btn-primary undo-shop-buy-btn skip-shop-buy-btn" data-skips="5" data-cost="12" type="button">Buy</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-      <a href="http://www.github.com/paskhaver/sokoban" target="_blank">
-        <img height="80" src="./PNG/github-logo.png">
-      </a>
+            <div id="restart-shop-modal" class="undo-shop-modal" hidden>
+                <div class="undo-shop-card" role="dialog" aria-modal="true" aria-labelledby="restart-shop-title">
+                    <div class="undo-shop-header">
+                        <h3 id="restart-shop-title">Buy Restarts</h3>
+                        <button class="undo-shop-close" id="close-restart-shop-btn" type="button" aria-label="Close">✕</button>
+                    </div>
+                    <p class="undo-shop-subtitle">You have no restarts left. Next free restart in <span id="restart-modal-timer">--:--:--</span>.</p>
+                    <div class="undo-shop-packages">
+                        <div class="undo-shop-package">
+                            <div>
+                                <strong>1 restart</strong>
+                                <span>5 stars</span>
+                            </div>
+                            <button class="btn btn-primary restart-shop-buy-btn" data-restarts="1" data-cost="5" type="button">Buy</button>
+                        </div>
+                        <div class="undo-shop-package">
+                            <div>
+                                <strong>3 restarts</strong>
+                                <span>12 stars</span>
+                            </div>
+                            <button class="btn btn-primary restart-shop-buy-btn" data-restarts="3" data-cost="12" type="button">Buy</button>
+                        </div>
+                    </div>
+                    <div class="restart-modal-progress">
+                        <div class="header-progress">
+                            <div class="header-progress-fill" id="restart-modal-progress-fill" style="width:0%"></div>
+                        </div>
+                        <span class="stat-value" id="restart-modal-progress-text">0/3</span>
+                    </div>
+                </div>
+            </div>
 
-      <a href="https://www.linkedin.com/in/boris-paskhaver-73399760/" target="_blank">
-        <img height="80" src="./PNG/linkedin-logo.png">
-      </a>
+            <!-- Settings modal -->
+    <div class="modal" id="settings-modal" hidden>
+        <div class="modal-card">
+        <div class="modal-title">Settings</div>
 
-      </footer>
+        <div class="setting-group">
+            <div class="setting-label">Control mode</div>
+            <div class="radio-group" id="mode-radios">
+            <label class="radio">
+                <input type="radio" name="ctrl-mode" value="buttons" />
+                <span class="radio-check" aria-hidden="true"></span>
+                <span class="radio-text">
+                <span class="radio-title">On-screen buttons</span>
+                <span class="radio-sub">Round D-pad appears on phones</span>
+                </span>
+            </label>
+            <label class="radio">
+                <input type="radio" name="ctrl-mode" value="swipe" />
+                <span class="radio-check" aria-hidden="true"></span>
+                <span class="radio-text">
+                <span class="radio-title">Swipe</span>
+                <span class="radio-sub">One swipe on the board = one move</span>
+                </span>
+            </label>
+            <label class="radio">
+                <input type="radio" name="ctrl-mode" value="double-swipe" />
+                <span class="radio-check" aria-hidden="true"></span>
+                <span class="radio-text">
+                <span class="radio-title">Double-swipe</span>
+                <span class="radio-sub">Swipe twice in the same direction to confirm</span>
+                </span>
+            </label>
+            </div>
+        </div>
 
-    <script src="./dist/bundle.js"></script>
+        <button class="primary" id="settings-close">Done</button>
+        </div>
+    </div>
 
-  </body>
+    <!-- Game Limits Modal -->
+    <div class="undo-shop-modal" id="limitsModal" hidden>
+        <div class="modal-limits-backdrop" data-close="limitsModal"></div>
+        <section class="modal-limits-dialog" role="dialog" aria-modal="true" aria-labelledby="limitsModalTitle">
+        <header class="modal-limits-header">
+            <div>
+            <span class="modal-limits-kicker">GAME AIDS AND LIMITS FILL UP</span>
+            </div>
+
+            <button class="modal-limits-close" type="button" data-close="limitsModal" aria-label="Close game limits modal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 6 18 18M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            </button>
+        </header>
+
+        <div class="modal-limits-body">
+            <div class="info-grid">
+                <div class="info-row">
+                    <span class="info-text" id="modal-info-skips">Level skips</span>
+                </div>
+
+                <div class="info-row">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M4 12a8 8 0 1 1 3.2 6.4M4 12v6m0-6h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="info-text" id="modal-info-restarts"></span>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-icon" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M10 8 6 12l4 4M7 12h6a5 5 0 1 1 0 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    </div>
+                    <div>
+                        <span class="info-text" id="modal-info-undos"></span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Next Undo In:</span>
+                        <span class="stat-value" id="undo-timer">--:--</span>
+                    </div>
+                    
+                </div>
+                <div class="info-row">
+                    <div class="stat-item undo-progress-item">
+                      <span class="stat-label">Undos Refill</span>
+                    <div class="header-progress">
+                        <div class="header-progress-fill" id="header-undo-progress-fill" style="width:0%"></div>
+                    </div>
+                    <span class="stat-value" id="header-undo-progress-text">0/30</span>
+                   </div>
+                    <div class="info-row">
+                    <button class="btn btn-primary" id="header-buy-undos-btn" role="menuitem">Buy UNDOS</button>
+                    </div>
+                </div>
+        </div>
+
+        <footer class="modal-limits-footer">
+            <div>Suggested button name: <strong style="color:var(--text)">Game Limits</strong> instead of just “Info”.</div>
+            <div class="footer-inline">
+            <span class="footer-chip">Modal overlay</span>
+            <span class="footer-chip">Mobile friendly</span>
+            </div>
+        </footer>
+        </section>
+    </div>
+
+    <script type="module" src="./lib/sokoban.js"></script>
+</body>
+<!-- Header Actions Modal (moved out of header for modal-only display) -->
+<div id="header-actions-modal" class="header-actions-modal" hidden>
+    <div class="actions-modal-card">
+        <button class="actions-modal-close" aria-label="Close dialog">✕</button>
+        <div class="header-menu-panel-content" role="menu">
+            <button class="btn btn-secondary" id="back-to-level-select-btn">Level Select</button>
+            <button class="btn btn-secondary" id="header-referral-btn" role="menuitem">Refer</button>
+            <button class="btn btn-secondary" id="header-share-btn" role="menuitem">Share</button>
+            <button class="btn btn-secondary" id="preview-restart-modal-btn" role="menuitem">Preview Restart Modal</button>
+            <button class="icon-btn btn-secondary" id="settings-btn" aria-label="Open settings">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M19.14 12.94a7.5 7.5 0 0 0 0-1.88l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.5 7.5 0 0 0-1.63-.94l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54c-.59.24-1.13.55-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.65 8.84a.5.5 0 0 0 .12.64l2.03 1.58a7.5 7.5 0 0 0 0 1.88L2.77 14.52a.5.5 0 0 0-.12.64l1.92 3.32c.14.24.43.34.6.22l2.39-.96c.5.39 1.04.7 1.63.94l.36 2.54c.04.24.25.42.5.42h3.84c.25 0 .46-.18.5-.42l.36-2.54c.59-.24 1.13-.55 1.63-.94l2.39.96c.17.12.46.02.6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"/>
+                </svg>
+                <span class="btn-label">Settings</span>
+            </button>
+            <button class="header-btn" id="limitsBtn" type="button" aria-haspopup="dialog" aria-controls="limitsModal">
+                <span class="icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/>
+                    <path d="M12 17v-1.2M9.9 9.5a2.4 2.4 0 1 1 3.6 2.08c-.95.54-1.5 1.03-1.5 2.12v.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                <span>Game Limits</span>
+            </button>
+        </div>
+    </div>
+</div>
+</body>
 </html>
+
