@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
     <title>Sokoban - Modern Puzzle Game</title>
 
     <!-- Modern UI Libraries -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -15,15 +17,31 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css">
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+
 
     <!-- Modern CSS -->
     <link rel="stylesheet" href="style/theme.css">
     <link rel="stylesheet" href="style/gamify.css">
     <link rel="stylesheet" href="style/info-button.css">
+    <link rel="stylesheet" href="style/trophy.css">
+    
 
+    <script>
+      // Initialize APP_CONFIG with environment variables
+      // These are injected by webpack or set in .env file
+      window.APP_CONFIG = {
+            apiBaseUrl: typeof process !== 'undefined' && process.env?.VITE_API_BASE_URL ? process.env.VITE_API_BASE_URL : 'https://sokoban-cloudflare-api.lookmans.workers.dev',
+            clientApiKey: typeof process !== 'undefined' && process.env?.VITE_CLIENT_API_KEY ? process.env.VITE_CLIENT_API_KEY : ''
+        };
+      window.CLIENT_API_KEY = window.CLIENT_API_KEY || window.APP_CONFIG.clientApiKey;
+    </script>
 
 </head>
-<body>
+
+<body  id="color-change">
     <!-- Modern Header with Glass Effect -->
     <header class="modern-header">
         <div class="header-content">
@@ -37,41 +55,34 @@
                     <h1>Sokoban</h1>
                 </div>
             </div>
-            <div class="header-stats-row">
-                <div class="header-stats">
-                    <div class="stat-item">
-                        <span class="stat-label">Level:</span>
-                        <span class="stat-value" id="header-level">1</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Skips:</span>
-                        <span class="stat-value" id="header-steps">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Undos:</span>
-                        <span class="stat-value" id="header-undos">30</span>
-                    </div>
-
-                    <div class="stat-item">
-                        <span class="stat-label">Stars:</span>
-                        <span class="stat-value" id="header-stars">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Restarts:</span>
-                        <span class="stat-value" id="header-restarts">3</span>
-                    </div>
-                    
-                    <div class="header-actions">
-                        <div class="header-menu">
-                            <button class="btn btn-small btn-outline header-menu-toggle" id="header-actions-btn" aria-expanded="false" aria-haspopup="menu">
-                                <span class="header-menu-label">Actions</span>
-                                <span class="header-menu-caret">▾</span>
-                            </button>
-                            <!-- Header actions moved to modal (see index for modal markup) -->
-                            <!-- Original inline panel removed; actions appear in the modal now -->
-                        </div>
+            <div class="limit-modal-item" style="width:100%" id="stats-div">
+                <div class="brand">
+                    <div class="brand-mark" aria-hidden="true">
+                    <button class="header-btn" id="back-to-level-select-btn" aria-label="Menu">
+                       <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
+                    </button>
                     </div>
                 </div>
+                        <button class="btn-primary header-btn" id="limitsBtn" type="button" aria-haspopup="dialog" aria-controls="limitsModal">
+                            <span class="icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/>
+                                <path d="M12 17v-1.2M9.9 9.5a2.4 2.4 0 1 1 3.6 2.08c-.95.54-1.5 1.03-1.5 2.12v.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                                </svg>
+                            </span>
+                            <span id="limits-span">Game Limits</span>
+                        </button>
+                <div class="brand">
+                    <div class="brand-mark" aria-hidden="true">
+                        <button class="header-btn" id="settings-btn" aria-label="Open settings">
+                            <svg id="i-settings" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="24" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                            <path d="M13 2 L13 6 11 7 8 4 4 8 7 11 6 13 2 13 2 19 6 19 7 21 4 24 8 28 11 25 13 26 13 30 19 30 19 26 21 25 24 28 28 24 25 21 26 19 30 19 30 13 26 13 25 11 28 8 24 4 21 7 19 6 19 2 Z" />
+                            <circle cx="16" cy="16" r="4" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </header>
@@ -79,9 +90,9 @@
     <!-- Main Game Container -->
     <main class="game-container">
         <!-- Initial Navigation Screen -->
-    <section class="panel reveal stage" aria-label="Game launch panel" id="initial-navigation">
+    <section class="panel reveal stage initial-navigation" aria-label="Game launch panel" id="initial-navigation">
       
-      <div class="scan" aria-hidden="true"></div>
+      <!--<div class="scan" aria-hidden="true"></div>-->
 
       <div class="cta-wrap">
         <button class="start-btn" id="start-game-btn" type="button" aria-label="Start Game">
@@ -92,13 +103,13 @@
         </button>
       </div>
 
-      <div class="status" id="status" aria-live="polite"></div>
+      <!--<div class="status" id="status" aria-live="polite"></div>-->
     </section>
 
         <!-- Level Selection Screen -->
         <section class="level-selection screen" id="level-selection" style="display: none;">
             <div class="level-selection-content">
-                <h1>Select Level</h1>
+                <h1 id="menu-h1">Select Level</h1>
                 <div class="level-grid" id="level-grid">
                     <!-- Levels will be populated dynamically -->
                 </div>
@@ -120,15 +131,73 @@
                 <!-- Victory Dialog -->
                 <div id="win-dialog" class="victory-dialog" hidden>
                     <div class="victory-card">
-                        <img class="victory-image" src="PNG/burgundy.jpg" alt="Congratulations illustration">
-                        <div class="victory-body">
-                            <div class="trophy-icon">🎉</div>
+                       <!-- <img class="victory-image" src="PNG/burgundy.jpg" alt="Congratulations illustration">-->
+                       <div class="confetti-layer" aria-hidden="true"></div>
+                       <div class="victory-body">
+                         <div class="cup">
+                            <div class="rays" id="rays" aria-hidden="true"></div>
+                            <div class="halo" id="halo" aria-hidden="true"></div>
+                            <div class="ring" id="ring1" aria-hidden="true"></div>
+                            <div class="ring" id="ring2" aria-hidden="true"></div>
+
+                            <svg class="trophy" id="trophy" viewBox="0 0 200 200" role="img" aria-label="Golden trophy">
+                                <defs>
+                                <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#fff6d2"/>
+                                    <stop offset="38%" stop-color="#ffd76a"/>
+                                    <stop offset="72%" stop-color="#e9a531"/>
+                                    <stop offset="100%" stop-color="#b9761a"/>
+                                </linearGradient>
+
+                                <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stop-color="#ffeaa6"/>
+                                    <stop offset="60%" stop-color="#e0a02c"/>
+                                    <stop offset="100%" stop-color="#8f5a12"/>
+                                </linearGradient>
+
+                                <clipPath id="cupClip">
+                                    <path d="M62 34h76v34c0 26-17 44-38 44S62 94 62 68z"/>
+                                </clipPath>
+                                </defs>
+
+                                <!-- Handles -->
+                                <path d="M64 46h-16c-11 0-18 8-18 18s8 19 20 20"
+                                fill="none" stroke="url(#g2)" stroke-width="9" stroke-linecap="round"/>
+
+                                <path d="M136 46h16c11 0 18 8 18 18s-8 19-20 20"
+                                fill="none" stroke="url(#g2)" stroke-width="9" stroke-linecap="round"/>
+
+                                <!-- Cup -->
+                                <path d="M62 34h76v34c0 26-17 44-38 44S62 94 62 68z"
+                                fill="url(#g1)"/>
+
+                                <path d="M78 38v30c0 17 8 29 18 35"
+                                fill="none" stroke="#fff9e2" stroke-opacity=".55"
+                                stroke-width="6" stroke-linecap="round"/>
+
+                                <!-- Shine -->
+                                <g clip-path="url(#cupClip)">
+                                <rect class="shine" x="60" y="20" width="26" height="120"
+                                    fill="#fff" opacity="0" transform="skewX(-18)"/>
+                                </g>
+
+                                <!-- Stem and base -->
+                                <rect x="93" y="110" width="14" height="22" rx="4" fill="url(#g2)"/>
+                                <rect x="70" y="130" width="60" height="14" rx="6" fill="url(#g1)"/>
+                                <rect x="58" y="142" width="84" height="18" rx="8" fill="url(#g2)"/>
+                                <rect x="52" y="158" width="96" height="10" rx="5" fill="#a8670f" opacity=".85"/>
+
+                                <!-- Star -->
+                                <path d="M100 52l7.4 15 16.6 2.4-12 11.7 2.8 16.5L100 89.9 85.2 97.6 88 81.1l-12-11.7L92.6 67z"
+                                fill="#fff6d5" opacity=".92"/>
+                             </svg>
+                            </div>
                             <h3>Congratulations!</h3>
                             <p>You completed level <span id="completion-level-number">1</span>.</p>
                             <div class="victory-actions">
-                                <button class="btn btn-secondary victory-action-btn" id="continue-level-btn">Continue</button>
-                                <button class="btn btn-primary btn-large victory-action-btn share-action" id="share-level-btn">Share</button>
-                                <button class="btn btn-outline victory-action-btn" id="retry-level-btn">Retry</button>
+                                <button class="btn btn-primary  victory-action-btn" id="continue-level-btn">Continue</button>
+                                <button class="btn btn-primary  victory-action-btn " id="share-level-btn">Share</button>
+                                <button class="btn btn-primary victory-action-btn" id="retry-level-btn">Retry</button>
                             </div>
                         </div>
                     </div>
@@ -137,39 +206,55 @@
             </section>
             
             <!-- Game Control Buttons -->
-            <div class="game-controls">
-                <button class="btn btn-outline" id="header-undo-btn" aria-label="Undo" data-tooltip="Undo">
-                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
-                        <path fill="currentColor" d="M12 4V1L7 6l5 5V8c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5H6c0 3.87 3.13 7 7 7s7-3.13 7-7-3.13-7-7-7z"></path>
-                    </svg>
-                </button>
+            <div class="game-controls" >
+                    <button class="btn btn-primary" id="header-undo-btn" aria-label="Undo" data-tooltip="Undo">
+                        <svg id="i-reply" class="game-control-svgs" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="#f2f2f2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                            <path d="M10 6 L3 14 10 22 M3 14 L18 14 C26 14 30 18 30 26" />
+                        </svg>
+                    </button>
 
-                <button class="btn btn-outline" id="skip-level-btn" aria-label="Skip Level" data-tooltip="Skip Level">
-                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
-                        <g fill="currentColor">
-                            <polygon points="6,5 14,12 6,19" />
-                            <rect x="16" y="5" width="2" height="14" rx="1" />
-                        </g>
-                    </svg>
-                </button>
+                    <button class="btn btn-primary " id="skip-level-btn" aria-label="Skip Level" data-tooltip="Skip Level">
+                        <svg class="game-control-svgs" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
+                            <defs id="defs3051">
+                            <style type="text/css" id="current-color-scheme">
+                                .ColorScheme-Text {
+                                color:#f2f2f2;
+                                }
+                                </style>
+                            </defs>
+                            <path
+                                style="fill:currentColor;fill-opacity:1;stroke:none"
+                                d="m3 4v14l7-7m7-7v14h2v-14m-9 0v14l7-7"
+                                class="ColorScheme-Text" />
+                        </svg> 
+                    </button>
 
-                <button class="btn btn-outline" id="restart-level-btn" aria-label="Restart" data-tooltip="Restart">
-                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
-                        <path fill="currentColor" d="M12 6V3L8 7l4 4V8a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z"></path>
-                    </svg>
-                </button>
+                    <button class="btn btn-primary" id="restart-level-btn" aria-label="Restart" data-tooltip="Restart">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="#f2f2f2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.252 4v5H9M5.07 8a8 8 0 1 1-.818 6"/>
+                            </svg>
+                    </button>
 
-                <button class="btn btn-outline" id="solution-btn" aria-label="Solution" data-tooltip="Show Solution">
-                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
-                        <path fill="currentColor" d="M9 2a7 7 0 0 1 6 10c0 2-1 3-2 4v2H7v-2c-1-1-2-2-2-4a7 7 0 0 1 6-10zM11 20h2v2h-2z"/>
-                    </svg>
-                </button>
-
+                    <button class="btn  btn-primary" id="solution-btn" aria-label="Solution" data-tooltip="Show Solution">
+                        <svg class="game-control-svgs" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
+                        <defs id="defs3051">
+                        <style type="text/css" id="current-color-scheme">
+                            .ColorScheme-Text {
+                            color:#f2f2f2;
+                            }
+                            </style>
+                        </defs>
+                        <path
+                            style="fill:currentColor;fill-opacity:1;stroke:none"
+                            d="m11.000033 2.999975c-.29336 0-.53125.23803-.53125.53125v1.23438c.00004.29313.23792.53125.53125.53125.29365 0 .53125-.23812.53125-.53125v-1.23438c0-.29322-.23757-.53125-.53125-.53125zm-3.6953099 1.23438c-.13411-.0214-.27759.009-.39649.0957-.2369.17204-.28931.5031-.11718.74023l.72656 1c .10425.14313.26527.21875.42969.21875.10778 0 .21624-.0332.31054-.10156.23697-.17213.29127-.50309.11914-.74023l-.72656-1c-.0863-.11847-.21159-.19151-.3457-.21289zm7.3906199 0c-.13401.0214-.25941.0942-.3457.21289l-.72461 1c-.17213.23713-.11982.56813.11719.74023.0943.0684.20279.10156.31054.10156.16442 0 .32759-.0756.43164-.21875l.72461-1c .1721-.23714.11982-.5682-.11718-.74023-.11917-.0865-.26247-.11709-.39649-.0957zm-3.69531 1.9121c-2.1179099 0-3.8339799 1.71624-3.8339799 3.83399 0 .89336.30702 1.714.82031 2.36523.4498.5707.87496 1.19336 1.24414 1.82032v1.27343h3.5156199v-1.24023c.36578-.60979.84036-1.31149 1.26758-1.85352.51373-.65142.82031-1.47129.82031-2.36523 0-2.11775-1.71649-3.83399-3.83398-3.83399zm-6.1601599 1.29688c-.20648.0177-.39089.15604-.45898.36523-.0908.27858.061.57923.33984.66993l1.17578.38086c.0549.0176.10966.0273.16407.0273.22391 0 .43074-.14272.5039-.36719.0908-.27858-.061-.57925-.33984-.66992l-1.17578-.38086c-.0704-.0227-.14016-.0313-.20899-.0254zm12.3203199.002c-.0686-.006-.13966.0009-.20899.0234l-1.17383.38086c-.27881.0907-.43255.39111-.34179.66992.073.22427.28195.36719.50586.36719.0545 0 .10757-.0101.16211-.0273l1.17578-.38086c.27894-.0907.43044-.38919.33984-.66797-.0681-.209-.25321-.34737-.45898-.36523zm-11.0527399 3.5918c-.0688-.006-.14059.00092-.21094.0234l-1.17578.38086c-.27881.0904-.43067.39095-.33984.66992.0725.22446.28.36719.50391.36719.0541 0 .10962-.01.16406-.0273l1.17578-.38086c.27904-.0905.4306-.38913.33984-.66797-.0676-.209-.2505-.3473-.45703-.36524zm9.7871099 0c-.20609.0179-.39101.15624-.45898.36523-.0908.27888.0631.57731.34179.66797l1.17383.38282c.0545.0177.10959.0254.16406.0254.22388 0 .43074-.14305.50391-.36719.0906-.279-.0608-.57727-.33984-.66797l-1.17578-.38281c-.0698-.0225-.14029-.0294-.20899-.0234zm-8.0312499 2.60156c-.13432.0213-.26.0943-.3457.21289l-.72656.99805c-.17259.23713-.12022.5698.11718.74219.0938.0687.20235.10156.31055.10156.16442 0 .32606-.0759.42969-.21875l.72656-1c .17258-.23707.1202-.56781-.11719-.74023-.11816-.0867-.26021-.11697-.39453-.0957zm6.2734399 0c-.13414-.0212-.27769.01-.39649.0957-.23674.1723-.28784.50314-.11523.74024l.72461 1c .10357.14281.26518.21875.42969.21875.10817 0 .2182-.0332.3125-.10157.23694-.17236.28966-.50502.11718-.74218l-.72656-.99805c-.0861-.11847-.21156-.19165-.3457-.21289zm-4.5566399 2.40821c-.21974 0-.39844.17872-.39844.39843 0 .21986.1787.39844.39844.39844h2.8378899c.21973 0 .39844-.17858.39844-.39844.00004-.21971-.17864-.39843-.39844-.39843zm-.1875 1.39648c0 .49474.38686.89564.8749999.92383.054.35729.35977.63281.73242.63281.37226 0 .67866-.27539.73242-.63281.48726-.0288.875-.42938.875-.92383z"
+                            class="ColorScheme-Text" />
+                        </svg> 
+                    </button>
             </div>
 
              <div class="touch-controls" id="touch-controls" aria-hidden="true">
                     <div class="dpad-row">
-                        <button class="sbtn" data-dir="left"  aria-label="Move left">
+                        <button class="sbtn" data-dir="left" aria-label="Move left">
                         <svg viewBox="0 0 24 24" class="sbtn-arrow" aria-hidden="true">
                             <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
                         </svg>
@@ -191,18 +276,23 @@
                         </button>
                     </div>
                     </div>
+                    
         </section>
 
         <!-- Instructions Screen -->
         <section class="instructions-screen screen" id="instructions-screen" style="display: none;">
             <div class="instructions-content">
-                <h2>Game Instructions</h2>
+                <div class="instructions-header">
+                    <span class="eyebrow">About</span>
+                    <h2>Game Instructions</h2>
+                </div>
                 <div class="instruction-items">
-                    <div class="instruction-item">
+                    <div class="instruction-item hero">
+                        <div class="instruction-icon hero-icon">🎮</div>
                         <div class="instruction-text">
                             <h3>How to Play</h3>
-                            <h1>⬆️⬇️➡️⬅️</h1>
-                            <p>Use the arrow keys or touch controls to move the player through each puzzle.</p>
+                            <div class="control-row" aria-label="Movement controls">⬆️ ⬇️ ➡️ ⬅️</div>
+                            <p>Use the arrow keys or touch controls to move the player through each puzzle and reach every checkpoint.</p>
                         </div>
                     </div>
                     <div class="instruction-item">
@@ -243,11 +333,11 @@
         </section>
     </main>
 
-    <nav class="mobile-bottom-nav" aria-label="Bottom navigation">
+    <nav class="mobile-bottom-nav" aria-label="Bottom navigation" id="footerNav">
         <button class="nav-item" id="home-nav-btn" type="button">🏠<span>Home</span></button>
-        <button class="nav-item" id="instructions-btn" type="button">ℹ️<span>ABOUT</span></button>
+        <button class="nav-item" id="instructions-btn" type="button">ℹ️<span>About</span></button>
         <button class="nav-item" id="achievements-btn" type="button">🏅<span>Achievement</span></button>
-        <button class="nav-item" id="leaderboard-main-btn" type="button">📊<span>LeaderBoard</span></button>
+        <button class="nav-item" id="leaderboard-main-btn" type="button">📊<span>Leaderboard</span></button>
     </nav>
 
     <div id="undo-shop-modal" class="undo-shop-modal" hidden>
@@ -263,66 +353,66 @@
                         <strong>5 undos</strong>
                         <span>3 stars</span>
                     </div>
-                    <button class="btn btn-primary undo-shop-buy-btn" data-undos="5" data-cost="3" type="button">Buy</button>
+                    <button class="btn btn-primary undo-shop-buy-btn gen-shop-buy-btn" data-undos="5" data-cost="3" type="button">Buy</button>
                 </div>
                 <div class="undo-shop-package">
                     <div>
                         <strong>10 undos</strong>
-                        <span>6 stars</span>
+                        <span>7 stars</span>
                     </div>
-                    <button class="btn btn-primary undo-shop-buy-btn" data-undos="10" data-cost="6" type="button">Buy</button>
+                    <button class="btn btn-primary undo-shop-buy-btn gen-shop-buy-btn" data-undos="10" data-cost="6" type="button">Buy</button>
                 </div>
                 <div class="undo-shop-package">
                     <div>
                         <strong>20 undos</strong>
                         <span>10 stars</span>
                     </div>
-                    <button class="btn btn-primary undo-shop-buy-btn" data-undos="20" data-cost="10" type="button">Buy</button>
+                    <button class="btn btn-primary undo-shop-buy-btn gen-shop-buy-btn" data-undos="20" data-cost="10" type="button">Buy</button>
                 </div>
                 <div class="undo-shop-package custom-package">
                     <div class="custom-package-row">
                         <label for="custom-undo-amount">Custom undos</label>
-                        <input id="custom-undo-amount" type="number" min="1" max="100" value="8">
+                        <input id="custom-undo-amount" type="number" min="1" max="100" value="1">
                     </div>
-                    <div class="custom-package-price">Admin price: <strong>1 star each</strong></div>
+                    <div class="custom-package-price">Price: <strong>1 star for each Undo</strong></div>
                     <button class="btn btn-secondary" id="buy-custom-undos-btn" type="button">Buy Custom</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="skip-shop-modal" class="undo-shop-modal" hidden>
-        <div class="undo-shop-card" role="dialog" aria-modal="true" aria-labelledby="skip-shop-title">
-            <div class="undo-shop-header">
-                <h3 id="skip-shop-title">Buy Skips</h3>
-                <button class="undo-shop-close" id="close-skip-shop-btn" type="button" aria-label="Close">✕</button>
+            <div id="skip-shop-modal" class="undo-shop-modal" hidden>
+                <div class="undo-shop-card" role="dialog" aria-modal="true" aria-labelledby="skip-shop-title">
+                    <div class="undo-shop-header">
+                        <h3 id="skip-shop-title">Buy Skips</h3>
+                        <button class="undo-shop-close" id="close-skip-shop-btn" type="button" aria-label="Close">✕</button>
+                    </div>
+                    <p class="undo-shop-subtitle">You have no skips left. Choose a package below.</p>
+                    <div class="undo-shop-packages">
+                        <div class="undo-shop-package">
+                            <div>
+                                <strong>1 skip</strong>
+                                <span>20 stars</span>
+                            </div>
+                            <button class="btn btn-primary gen-shop-buy-btn skip-shop-buy-btn" data-skips="1" data-cost="3" type="button">Buy</button>
+                        </div>
+                        <div class="undo-shop-package">
+                            <div>
+                                <strong>3 skips</strong>
+                                <span>50 stars</span>
+                            </div>
+                            <button class="btn btn-primary gen-shop-buy-btn skip-shop-buy-btn" data-skips="3" data-cost="8" type="button">Buy</button>
+                        </div>
+                        <div class="undo-shop-package">
+                            <div>
+                                <strong>5 skips</strong>
+                                <span>80 stars</span>
+                            </div>
+                            <button class="btn btn-primary gen-shop-buy-btn skip-shop-buy-btn" data-skips="5" data-cost="12" type="button">Buy</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <p class="undo-shop-subtitle">You have no skips left. Choose a package below.</p>
-            <div class="undo-shop-packages">
-                <div class="undo-shop-package">
-                    <div>
-                        <strong>1 skip</strong>
-                        <span>3 stars</span>
-                    </div>
-                    <button class="btn btn-primary undo-shop-buy-btn skip-shop-buy-btn" data-skips="1" data-cost="3" type="button">Buy</button>
-                </div>
-                <div class="undo-shop-package">
-                    <div>
-                        <strong>3 skips</strong>
-                        <span>8 stars</span>
-                    </div>
-                    <button class="btn btn-primary undo-shop-buy-btn skip-shop-buy-btn" data-skips="3" data-cost="8" type="button">Buy</button>
-                </div>
-                <div class="undo-shop-package">
-                    <div>
-                        <strong>5 skips</strong>
-                        <span>12 stars</span>
-                    </div>
-                    <button class="btn btn-primary undo-shop-buy-btn skip-shop-buy-btn" data-skips="5" data-cost="12" type="button">Buy</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
             <div id="restart-shop-modal" class="undo-shop-modal" hidden>
                 <div class="undo-shop-card" role="dialog" aria-modal="true" aria-labelledby="restart-shop-title">
@@ -330,36 +420,40 @@
                         <h3 id="restart-shop-title">Buy Restarts</h3>
                         <button class="undo-shop-close" id="close-restart-shop-btn" type="button" aria-label="Close">✕</button>
                     </div>
-                    <p class="undo-shop-subtitle">You have no restarts left. Next free restart in <span id="restart-modal-timer">--:--:--</span>.</p>
+                    <p class="undo-shop-subtitle">No restarts left. No worry.</p>
                     <div class="undo-shop-packages">
                         <div class="undo-shop-package">
                             <div>
                                 <strong>1 restart</strong>
-                                <span>5 stars</span>
+                                <span>10 stars</span>
                             </div>
-                            <button class="btn btn-primary restart-shop-buy-btn" data-restarts="1" data-cost="5" type="button">Buy</button>
+                            <button class="btn btn-primary gen-shop-buy-btn restart-shop-buy-btn" data-restarts="1" data-cost="5" type="button">Buy</button>
                         </div>
                         <div class="undo-shop-package">
                             <div>
                                 <strong>3 restarts</strong>
-                                <span>12 stars</span>
+                                <span>20 stars</span>
                             </div>
-                            <button class="btn btn-primary restart-shop-buy-btn" data-restarts="3" data-cost="12" type="button">Buy</button>
+                            <button class="btn btn-primary gen-shop-buy-btn restart-shop-buy-btn" data-restarts="3" data-cost="12" type="button">Buy</button>
                         </div>
-                    </div>
-                    <div class="restart-modal-progress">
-                        <div class="header-progress">
-                            <div class="header-progress-fill" id="restart-modal-progress-fill" style="width:0%"></div>
+                        <div class="undo-shop-package">
+                            <div>
+                                <strong>5 restarts</strong>
+                                <span>30 stars</span>
+                            </div>
+                            <button class="btn btn-primary gen-shop-buy-btn restart-shop-buy-btn" data-restarts="3" data-cost="12" type="button">Buy</button>
                         </div>
-                        <span class="stat-value" id="restart-modal-progress-text">0/3</span>
                     </div>
                 </div>
             </div>
 
             <!-- Settings modal -->
-    <div class="modal" id="settings-modal" hidden>
-        <div class="modal-card">
-        <div class="modal-title">Settings</div>
+    <div class="undo-shop-modal" id="settings-modal" aria-modal="true" hidden>
+        <div class="undo-shop-card" id="settings-modal-card">
+        <div class="undo-shop-header">
+            <h3 id="undo-shop-title">Settings</h3>
+            <button class="undo-shop-close" id="settings-close" type="button" aria-label="Close">✕</button>
+       </div>
 
         <div class="setting-group">
             <div class="setting-label">Control mode</div>
@@ -391,7 +485,24 @@
             </div>
         </div>
 
-        <button class="primary" id="settings-close">Done</button>
+        <div class="setting-group">
+            <div class="setting-label">Sound</div>
+            <div class="sound-toggle" id="sound-radios">
+                <label class="sound-option">
+                    <input type="radio" name="sound-enabled" value="on" checked />
+                    <span>On</span>
+                </label>
+                <label class="sound-option">
+                    <input type="radio" name="sound-enabled" value="off" />
+                    <span>Off</span>
+                </label>
+            </div>
+             <button class="btn btn-primary" id="header-referral-btn" role="menuitem">Refer Friends</button>
+        </div>
+
+           
+            <!--<button class="btn btn-secondary" id="header-share-btn" role="menuitem">Share</button> -->
+        </div>
         </div>
     </div>
 
@@ -401,7 +512,7 @@
         <section class="modal-limits-dialog" role="dialog" aria-modal="true" aria-labelledby="limitsModalTitle">
         <header class="modal-limits-header">
             <div>
-            <span class="modal-limits-kicker">GAME AIDS AND LIMITS FILL UP</span>
+            <span class="modal-limits-kicker" id="limit-head-title">GAME AIDS AND LIMITS FILL UP</span>
             </div>
 
             <button class="modal-limits-close" type="button" data-close="limitsModal" aria-label="Close game limits modal">
@@ -413,33 +524,29 @@
 
         <div class="modal-limits-body">
             <div class="info-grid">
-                <div class="info-row">
+                <div id="limit-modal-level-stats" hidden>
+                <span class="stat-label" hidden>Current Level Stats:</span>
+                <div class="limit-modal-item" id="limit-modal-level-stats" hidden>
+                    <span class="info-text" id="header-level"></span>
+                    <span class="info-text" id="header-steps"></span>
+                    <span class="info-text" id="header-pushes"></span>
+                </div>
+                </div>
+                <div class="limit-modal-item" id="limit-modal-skips">
                     <span class="info-text" id="modal-info-skips">Level skips</span>
+                    <button class="btn btn-primary" id="buy-skips-button" role="menuitem" hidden>Buy SKips</button>
                 </div>
 
-                <div class="info-row">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                        <path d="M4 12a8 8 0 1 1 3.2 6.4M4 12v6m0-6h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                <div class="limit-modal-item" id="limit-modal-restarts">
                     <span class="info-text" id="modal-info-restarts"></span>
+                    <button class="btn btn-primary" id="preview-restart-modal-btn" role="menuitem" hidden>Buy Restarts</button>
                 </div>
 
-                <div class="info-row">
-                    <div class="info-icon" aria-hidden="true">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                        <path d="M10 8 6 12l4 4M7 12h6a5 5 0 1 1 0 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    </div>
-                    <div>
-                        <span class="info-text" id="modal-info-undos"></span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Next Undo In:</span>
-                        <span class="stat-value" id="undo-timer">--:--</span>
-                    </div>
-                    
+                <div class="limit-modal-item" id="limit-modal-undos">
+                    <span class="info-text" id="modal-info-undos"></span>
+                     <button class="btn btn-primary" id="header-buy-undos-btn" role="menuitem" hidden>Buy UNDOS</button>
                 </div>
-                <div class="info-row">
+                <div class="limit-modal-item">
                     <div class="stat-item undo-progress-item">
                       <span class="stat-label">Undos Refill</span>
                     <div class="header-progress">
@@ -447,19 +554,25 @@
                     </div>
                     <span class="stat-value" id="header-undo-progress-text">0/30</span>
                    </div>
-                    <div class="info-row">
-                    <button class="btn btn-primary" id="header-buy-undos-btn" role="menuitem">Buy UNDOS</button>
+                    <div class="stat-item">
+                        <span class="stat-label">Next Undo In:</span>
+                        <span class="stat-value" id="undo-timer">--:--</span>
                     </div>
                 </div>
-        </div>
-
-        <footer class="modal-limits-footer">
-            <div>Suggested button name: <strong style="color:var(--text)">Game Limits</strong> instead of just “Info”.</div>
-            <div class="footer-inline">
-            <span class="footer-chip">Modal overlay</span>
-            <span class="footer-chip">Mobile friendly</span>
+                <div class="limit-modal-item">
+                    <div class="stat-item undo-progress-item">
+                        <span class="stat-label">Restarts Refill</span>
+                        <div class="header-progress">
+                            <div class="header-progress-fill" id="restart-modal-progress-fill" style="width:0%"></div>
+                        </div>
+                        <span class="stat-value" id="restart-modal-progress-text">0/3</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Next Restart In:</span>
+                        <span class="stat-value" id="restart-modal-timer">--:--:--</span>
+                    </div>
+                </div>
             </div>
-        </footer>
         </section>
     </div>
 
@@ -470,28 +583,12 @@
     <div class="actions-modal-card">
         <button class="actions-modal-close" aria-label="Close dialog">✕</button>
         <div class="header-menu-panel-content" role="menu">
-            <button class="btn btn-secondary" id="back-to-level-select-btn">Level Select</button>
-            <button class="btn btn-secondary" id="header-referral-btn" role="menuitem">Refer</button>
-            <button class="btn btn-secondary" id="header-share-btn" role="menuitem">Share</button>
-            <button class="btn btn-secondary" id="preview-restart-modal-btn" role="menuitem">Preview Restart Modal</button>
-            <button class="icon-btn btn-secondary" id="settings-btn" aria-label="Open settings">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M19.14 12.94a7.5 7.5 0 0 0 0-1.88l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.5 7.5 0 0 0-1.63-.94l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54c-.59.24-1.13.55-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.65 8.84a.5.5 0 0 0 .12.64l2.03 1.58a7.5 7.5 0 0 0 0 1.88L2.77 14.52a.5.5 0 0 0-.12.64l1.92 3.32c.14.24.43.34.6.22l2.39-.96c.5.39 1.04.7 1.63.94l.36 2.54c.04.24.25.42.5.42h3.84c.25 0 .46-.18.5-.42l.36-2.54c.59-.24 1.13-.55 1.63-.94l2.39.96c.17.12.46.02.6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"/>
-                </svg>
-                <span class="btn-label">Settings</span>
-            </button>
-            <button class="header-btn" id="limitsBtn" type="button" aria-haspopup="dialog" aria-controls="limitsModal">
-                <span class="icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/>
-                    <path d="M12 17v-1.2M9.9 9.5a2.4 2.4 0 1 1 3.6 2.08c-.95.54-1.5 1.03-1.5 2.12v.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                    </svg>
-                </span>
-                <span>Game Limits</span>
-            </button>
+            <button class="btn btn-secondary" id="back-to-level-select-btn2">Level Select</button>
+            
         </div>
     </div>
 </div>
 </body>
+
 </html>
 

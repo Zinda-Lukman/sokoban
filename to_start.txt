@@ -1,10 +1,49 @@
-- fix html rendering add caps
-- make the diplay of every thing like buttons more gamish
-- compile all information in header to in one button
-- make footer invisible on game screen
-- fix toasts to make some longer and also restyle it
-- fix toothtips
+- fix html rendering add caps✅
+- make the diplay of every thing like buttons more gamish✅
+- compile all information in header to in one button✅
+- make footer invisible on game screen✅
+
+- fix header #fix Limits Button✅
+- will search for better svgs✅
+- fix toasts to make some longer and also restyle it ✅
+- fix toothtips #Do some final toothes✅
+- Fix onscreen buttons✅
+
+tomorrow
+- fix payments, deploy and connect to tg
+
 - headerMenu
 - button disabling collusion
 - Button and header colours
-- will search for better svgs
+- fix share
+
+- add instructions
+- add sounds
+- will force centering
+
+Todo Today
+- Theme fixing
+- buttons invisibility on click( Done but Not Debugged)
+
+Future todos
+- will add user created leaderboards
+
+I want you to implement sounds in this game, using files in sounds folder;
+  when any button in the game is clicked, `sounds/click' sound sound be played,
+  during the game on every box push or player moves, `sounds/push' should be played
+  when a box is pushed onto the target, `sounds/settle' should be played
+
+On victory ie a user has completed a level, the victory modal should appear
+   created a victory animation, every time should pick a random sound for `sounds/victory' and play it
+
+
+- settings sound button✅
+- box seated on target✅
+- buy modal not closing info modal✅
+
+- Bricks poorly built poorly
+- Edit the instructions menu
+
+- colouring of shops✅
+- trophy and recolouring victory✅
+

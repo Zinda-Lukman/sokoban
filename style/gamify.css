@@ -62,7 +62,13 @@
       background:var(--lime);
       box-shadow:0 0 0 6px rgba(183,255,67,.09), 0 0 18px rgba(183,255,67,.55);
     }
-
+    #menu-h1{
+      width: 100%;
+      line-height:.99;
+      margin:0 0 .1rem;
+      max-width:auto;
+      font-size:clamp(1rem, 3vw, 2.3rem);
+    }
     h1{
       margin:0 0 .8rem;
       font-family:"Orbitron", sans-serif;
@@ -145,6 +151,23 @@
       animation:spin 4.5s linear infinite;
     }
 
+    #limitsBtn{
+      border: 0;
+      border-radius: 15px;
+      background:linear-gradient(135deg,var(--primary),var(--accent));
+      margin-left: 12px;
+      padding:10px 16px;
+    } 
+    #settings-close{
+      margin-left: 55%;
+      justify-content: left;
+    }
+    
+
+    #header-referral-btn{
+      padding: auto;
+      margin: 10px;
+    }
     .start-btn::after{
       content:"";
       position:absolute;
@@ -260,6 +283,14 @@
       h1{
         max-width:10ch;
       }
+
+      #menu-h1{
+      width: 100%;
+      line-height:.99;
+      margin:0 0 .1rem;
+      max-width:auto;
+      font-size:clamp(2rem, 6vw, 4.6rem);
+    }
     }
 
     @media (prefers-reduced-motion: reduce){

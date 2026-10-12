@@ -1,0 +1,6 @@
+cd /home/lookmans/projects/sokoban && ss -ltnp | grep ':3001' || lsof -i :3001 -sTCP:LISTEN -Pn
+
+
+curl -sS -D - -o /tmp/sokoban_storage_post_ok.txt -X POST http://127.0.0.1:3001/api/storage/user/test -H 'Content-Type: application/json' -H 'X-API-Key: anything' -d '{"data":{"ok":true}}' || true && printf '\n---\n' && sed -n '1,80p' /tmp/sokoban_storage_post_ok.txt
+
+cd /home/lookmans/projects/sokoban && nvm use node >/dev/null && PORT=3001 node server/purchaseServer.js

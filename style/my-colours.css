@@ -1,0 +1,254 @@
+/** my first*/
+:root{
+  --bg-1: #0b1220; /* deep navy */
+  --bg-2: #0f1724; /* slightly lighter */
+  --card: rgba(255,255,255,0.98);
+  --muted: #9aa6b2;
+  --primary: #06b6d4; /* cyan */
+  --primary-color: #6366f1;
+  --accent: #7c3aed; /* violet accent */
+  --success: #10b981;
+  --danger: #ef4444;
+  --glass: rgba(255,255,255,0.06);
+  --border: rgba(15,23,36,0.08);
+  --shadow-sm: 0 6px 18px rgba(2,6,23,0.35);
+  --radius: 14px;
+  --tile-size: 64px;
+  --transition: 260ms cubic-bezier(.2,.9,.3,1);
+
+  /**Gamified start button*/
+  --bg:#090b14;
+  /**dup*/
+  --bg-2:#111528;
+  --line:rgba(255,255,255,.14);
+  --text:#f5f7ff;
+  --muted:#a9b0c7;
+  --cyan:#57e8ff;
+  --violet:#8b5cf6;
+  --pink:#ff4fd8;
+  --lime:#b7ff43;
+  --shadow: 0 20px 60px rgba(0,0,0,.45);
+
+  --fg:   #e8ecff;
+  --mut:  #8a93b8;
+  --acc:  #7aa2ff;
+
+  /* control colors */
+  --ctrl-bg:        rgba(255, 255, 255, 0.08);
+  --ctrl-bg-press:  rgba(255, 255, 255, 0.22);
+  --ctrl-border:    rgba(255, 255, 255, 0.18);
+  --ctrl-icon:      #ffffff;
+  --ctrl-icon-dim:  rgba(255, 255, 255, 0.92);
+
+  /**info button**/
+  --bg:#111111;
+  /**dup*/
+  --bg-soft:#171717;
+  --panel:#1d1d1d;
+  --panel-2:#242424;
+  --line:rgba(255,255,255,.08);
+  --line-strong:rgba(240,181,74,.22);
+  --text:#f5f2ea;
+  --muted:#b9b1a2;
+  --accent:#f0b54a;
+  --accent-soft:rgba(240,181,74,.12);
+  --green:#7dd3a7;
+  --shadow:0 20px 60px rgba(0,0,0,.45);
+  --radius:18px;
+  --radius-lg:24px;
+  --header-h:72px;
+  --container:min(1180px, calc(100vw - 24px));
+}
+
+/** Now light*/
+:root{
+  color-scheme: light dark;
+  --bg-1: #f3f7ff;
+  --bg-2: #edf3ff;
+  --card: rgba(255,255,255,0.88);
+  --surface: #ffffff;
+  --surface-strong: #0f172a;
+  --surface-soft: #f8fafc;
+  --panel-overlay: rgba(15,23,42,0.62);
+  --muted: #64748b;
+  --text: #0f172a;
+  --text-strong: #020817;
+  --primary: #06b6d4;
+  --primary-color: #4f46e5;
+  --accent: #7c3aed;
+  --success: #10b981;
+  --danger: #ef4444;
+  --glass: rgba(148,163,184,0.12);
+  --border: rgba(15,23,36,0.12);
+  --shadow-sm: 0 6px 18px rgba(15,23,42,0.12);
+  --radius: 14px;
+  --tile-size: 64px;
+  --transition: 260ms cubic-bezier(.2,.9,.3,1);
+  --bottom-nav-bg: rgba(255,255,255,0.92);
+  --bottom-nav-border: rgba(15,23,42,0.08);
+  --bottom-nav-text: #0f172a;
+  --menu-panel-bg: rgba(255,255,255,0.96);
+  --menu-panel-border: rgba(15,23,42,0.12);
+  --tooltip-bg: rgba(15,23,42,0.94);
+  --tooltip-text: #e6eef6;
+
+  /**Gamified start button*/
+  --bg:#f7f9fc;
+  --bg-2:#eef4ff;
+  --line:rgba(15,23,42,.10);
+  --text:#111827;
+  --muted:#5b6b82;
+  --cyan:#57e8ff;
+  --violet:#8b5cf6;
+  --pink:#ff4fd8;
+  --lime:#b7ff43;
+  --shadow: 0 20px 60px rgba(0,0,0,.45);
+
+  --fg: #0f172a;
+  --mut: #475569;
+  --acc: #4f46e5;
+
+  --ctrl-bg: rgba(15, 23, 42, 0.05);
+  --ctrl-bg-press: rgba(15, 23, 42, 0.12);
+  --ctrl-border: rgba(15, 23, 42, 0.12);
+  --ctrl-icon: #0f172a;
+  --ctrl-icon-dim: rgba(15, 23, 42, 0.8);
+
+  /**info button**/
+  --bg-soft:#f3f4f6;
+  --panel:#ffffff;
+  --panel-2:#f8fafc;
+  --line:rgba(15,23,42,.10);
+  --line-strong:rgba(240,181,74,.22);
+  --text:#111827;
+  --muted:#64748b;
+  --accent2:#f59e0b;
+  --accent-soft:rgba(245,158,11,.12);
+  --green:#15803d;
+  --shadow:0 20px 60px rgba(15,23,42,.12);
+  --radius:18px;
+  --radius-lg:24px;
+  --header-h:72px;
+  --container:min(1180px, calc(100vw - 24px));
+
+   /* MENU BUTTON */
+  --tg-bg-3: #dfeaf8;
+  --tg-text: #0f172a;
+  --tg-text-2: #475569;
+  --tg-text-3: #64748b;
+  --sp-3: 12px;
+  --r-full: 999px;
+  --dur-fast: 120ms;
+
+  --tooltip-bg:rgba(255,255,255,.96);
+  --tooltip-text:#0d1117;
+
+  --gradient-me: linear-gradient(90deg,var(--primary),var(--accent));
+
+  
+}
+
+/** NOW DARK*/
+:root {
+    color-scheme: dark;
+    --bg-1: #0b1220;
+    --bg-2: #0f1724;
+    --card: rgba(15,23,36,0.88);
+    --surface: #0f172a;
+    --surface-strong: #111827;
+    --surface-soft: #111827;
+    --panel-overlay: rgba(2,6,23,0.62);
+    --muted: #9aa6b2;
+    --text: #e6eef6;
+    --text-strong: #f8fafc;
+    --primary: #06b6d4;
+    --primary-color: #6366f1;
+    --accent: #7c3aed;
+    --success: #10b981;
+    --danger: #ef4444;
+    --glass: rgba(255,255,255,0.06);
+    --border: rgba(148,163,184,0.18);
+    --shadow-sm: 0 6px 18px rgba(2,6,23,0.35);
+    --bg:#090b14;
+    --bg-2:#111528;
+    --line:rgba(255,255,255,.14);
+    --text:#f5f7ff;
+    --cyan:#57e8ff;
+    --violet:#8b5cf6;
+    --pink:#ff4fd8;
+    --lime:#b7ff43;
+    --shadow: 0 20px 60px rgba(0,0,0,.45);
+    --fg:#e8ecff;
+    --mut:#8a93b8;
+    --acc:#7aa2ff;
+    --ctrl-bg: rgba(255, 255, 255, 0.08);
+    --ctrl-bg-press: rgba(255, 255, 255, 0.22);
+    --ctrl-border: rgba(255, 255, 255, 0.18);
+    --ctrl-icon: #ffffff;
+    --ctrl-icon-dim: rgba(255,255,255,0.92);
+    --bg-soft:#171717;
+    --panel:#1d1d1d;
+    --panel-2:#242424;
+    --line:rgba(255,255,255,.08);
+    --line-strong:rgba(240,181,74,.22);
+    --muted:#b9b1a2;
+    --accent2:#f0b54a;
+    --accent-soft:rgba(240,181,74,.12);
+    --green:#7dd3a7;
+    --tg-bg-3:#1e2c3a;
+    --tg-text:#ffffff;
+    --tg-text-2:#708499;
+    --tg-text-3:#4f6c81;
+    --bottom-nav-bg: rgba(2,6,23,0.94);
+    --bottom-nav-border: rgba(255,255,255,0.08);
+    --bottom-nav-text: #dbeafe;
+    --menu-panel-bg: rgba(2,6,23,0.96);
+    --menu-panel-border: rgba(255,255,255,0.12);
+    --tooltip-bg: rgba(2,6,23,0.95);
+    --tooltip-text: #e6eef6;
+    --tooltip-bg:rgba(255,255,255,.96);
+    --tooltip-text:#0d1117;
+  }
+
+  /** Deep Navy Blue*/
+  :root {
+  --shade-1: #173e76;
+  --shade-2: #153765;
+  --shade-3: #122f54;
+  --shade-4: #102844;
+  --shade-5: #0d2033;
+  --shade-6: #0a192b;
+  --shade-7: #08131f;
+  --shade-8: #050d16;
+  --shade-9: #03080d;
+  --shade-10: #000000;
+}
+
+/**Deep Purple*/
+
+:root {
+  --shade-1: #6138f5;
+  --shade-2: #5632da;
+  --shade-3: #4b2cc0;
+  --shade-4: #4026a6;
+  --shade-5: #35208b;
+  --shade-6: #2a1a71;
+  --shade-7: #1f1456;
+  --shade-8: #140d3c;
+  --shade-9: #0a0722;
+  --shade-10: #000000;
+}
+
+/** GRey bg*/
+:root {
+  --shade-1: #849ea1;
+  --shade-2: #769194;
+  --shade-3: #688487;
+  --shade-4: #5b7679;
+  --shade-5: #4d696c;
+  --shade-6: #3f5b5f;
+  --shade-7: #324e52;
+  --shade-8: #243044;
+  --shade-9: #121822;
+  --shade-10: #000000;
+}

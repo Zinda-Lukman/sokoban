@@ -1,0 +1,16 @@
+{
+  "name": "sokoban-cloudflare-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8787",
+    "deploy": "wrangler deploy",
+    "check": "node --check src/index.js"
+  },
+  "devDependencies": {
+    "wrangler": "^3.106.0"
+  },
+  "dependencies": {
+    "@cloudflare/workerd-linux-64": "^1.20261005.1"
+  }
+}

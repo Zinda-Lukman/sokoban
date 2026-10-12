@@ -1,0 +1,16 @@
+[build]
+  # Build command - compiles webpack bundle
+  command = "npm run build"
+  # Directory to publish to Netlify
+  publish = "."
+
+[build.environment]
+  # Set these in Netlify UI or define here with defaults
+  VITE_API_BASE_URL = "https://sokoban-cloudflare-api.lookmans.workers.dev"
+  VITE_CLIENT_API_KEY = "replace-with-your-client-api-key"
+
+[[redirects]]
+  # Redirect API calls to your backend server
+  from = "/api/*"
+  to = "https://your-backend-url.com/api/:splat"
+  status = 200

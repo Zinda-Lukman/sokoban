@@ -1,0 +1,13 @@
+.hdr-left { display: flex; align-items: center; gap: var(--sp-3); }
+.hdr-btn {
+  width: 36px; height: 36px;
+  border-radius: var(--r-full);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--tg-text-2);
+  transition: background var(--dur-fast);
+}
+.hdr-btn:hover, .hdr-btn:active { background: var(--tg-bg-3); color: var(--tg-text); }
+
+.game-control-svgs{
+  color: var(--gradient-me);
+}

@@ -84,3 +84,33 @@ every 24 hours a user should be given a new restart upto the max of three, the p
 - Add referral tracking and UI.
 - Replace the payment stub with a server-client flow using Telegram’s Payments API.
 - Footer buttons with home, acchievements, and learder. Home page with start and how to play
+
+#Known bugs
+- clearing data resets skipped non-completed levels
+
+
+
+Create a **separate Cloudflare Workers version of the API** without changing or breaking my existing Node.js API.
+
+Requirements:
+
+1. Inspect my existing API and understand all its routes and functionality.
+2. Create a new `/cloudflare` folder for the Cloudflare version.
+3. Keep the existing Node.js server completely intact.
+4. Convert the existing API routes to Cloudflare Worker-compatible routes.
+5. Keep the same API paths, request formats, responses, authentication, and Supabase functionality where possible.
+6. Keep using my existing Supabase project.
+7. Create Cloudflare-compatible Telegram webhook handling.
+8. Make sure Telegram Stars `pre_checkout_query` is answered quickly.
+9. Handle `successful_payment` and preserve the existing payment/order logic.
+10. Use Cloudflare environment variables/secrets instead of `process.env`.
+11. Do not put any real secrets in the code.
+12. Add a `wrangler.jsonc` and a `README.md` explaining how to run and deploy the Worker.
+13. Add a `/health` endpoint for testing.
+14. Modify my frontend if any modifications needed, to allow switching and using both the node and workers.
+15. Do not remove or replace any existing Node.js code.
+
+
+First inspect the existing project. Then implement the Cloudflare version based on the actual code you find.
+
+If any existing Node.js functionality cannot run on Cloudflare Workers, don't change the original code. Instead, create a Cloudflare-compatible alternative and tell me what was changed.

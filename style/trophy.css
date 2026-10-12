@@ -1,0 +1,129 @@
+.cup {
+  position: relative;
+  width: clamp(150px, 30vmin, 300px);
+  height: clamp(150px, 30vmin, 300px);
+  display: grid;
+  place-items: center;
+}
+
+.trophy {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  filter:
+    drop-shadow(0 18px 40px rgba(0,0,0,.55))
+    drop-shadow(0 0 34px rgba(255,196,80,.35));
+  transform-origin: 50% 70%;
+  will-change: transform;
+}
+
+.trophy .shine {
+  transform-origin: center;
+  animation: shine 3.4s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0%, 72% {
+    opacity: 0;
+    transform: translateX(-140%) rotate(-8deg);
+  }
+  82% {
+    opacity: .85;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(140%) rotate(8deg);
+  }
+}
+
+.rays {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(190vmin, 1900px);
+  height: min(190vmin, 1900px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 0;
+  background: conic-gradient(
+    from 0deg,
+    rgba(255,215,106,0) 0deg,
+    rgba(255,215,106,.16) 6deg,
+    rgba(255,215,106,0) 13deg,
+    rgba(255,215,106,0) 22deg,
+    rgba(255,179,71,.14) 28deg,
+    rgba(255,215,106,0) 35deg,
+    rgba(255,215,106,0) 44deg,
+    rgba(255,215,106,.13) 50deg,
+    rgba(255,215,106,0) 57deg,
+    rgba(255,215,106,0) 70deg,
+    rgba(255,179,71,.15) 76deg,
+    rgba(255,215,106,0) 83deg,
+    rgba(255,215,106,0) 95deg,
+    rgba(255,215,106,.12) 101deg,
+    rgba(255,215,106,0) 108deg,
+    rgba(255,215,106,0) 120deg,
+    rgba(255,215,106,.14) 126deg,
+    rgba(255,215,106,0) 133deg,
+    rgba(255,215,106,0) 148deg,
+    rgba(255,215,106,.12) 154deg,
+    rgba(255,215,106,0) 161deg,
+    rgba(255,215,106,0) 180deg,
+    rgba(255,215,106,.15) 186deg,
+    rgba(255,215,106,0) 193deg,
+    rgba(255,215,106,0) 205deg,
+    rgba(255,215,106,.13) 211deg,
+    rgba(255,215,106,0) 218deg,
+    rgba(255,215,106,0) 232deg,
+    rgba(255,215,106,.15) 238deg,
+    rgba(255,215,106,0) 245deg,
+    rgba(255,215,106,0) 262deg,
+    rgba(255,215,106,.12) 268deg,
+    rgba(255,215,106,0) 275deg,
+    rgba(255,215,106,0) 292deg,
+    rgba(255,215,106,.14) 298deg,
+    rgba(255,215,106,0) 305deg,
+    rgba(255,215,106,0) 322deg,
+    rgba(255,215,106,.13) 328deg,
+    rgba(255,215,106,0) 335deg,
+    rgba(255,215,106,0) 360deg
+  );
+  -webkit-mask-image: radial-gradient(closest-side, #000 14%, transparent 62%);
+  mask-image: radial-gradient(closest-side, #000 14%, transparent 62%);
+}
+
+.halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(150vmin, 1500px);
+  height: min(150vmin, 1500px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 0;
+  background: radial-gradient(
+    closest-side,
+    rgba(255,214,130,.42) 0%,
+    rgba(255,178,80,.20) 32%,
+    rgba(180,90,255,.10) 55%,
+    transparent 72%
+  );
+  filter: blur(6px);
+}
+
+.ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 60px;
+  height: 60px;
+  margin: -30px 0 0 -30px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,224,150,.9);
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+}
