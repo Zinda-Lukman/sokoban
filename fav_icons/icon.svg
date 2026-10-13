@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 40 40" fill="none" preserveAspectRatio="xMidYMid meet">
+     <rect width="40" height="40" rx="8" fill="#4f46e5" class="logo-bg"/>
+     <path d="M12 20 L20 12 L28 20 L20 28 Z" fill="white"/>
+     <path d="M16 16 L20 12 L24 16 L20 20 Z" fill="currentColor" class="logo-accent"/>
+</svg>
