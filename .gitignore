@@ -1,5 +1,21 @@
 .DS_Store
 node_modules/
 .env
+.env.example
 .env.local
-.dev.vars
+cloudflare/.dev.vars
+cloudflare/node_modules/
+js.md
+box-image-regression.test.mjs
+to-start.txt
+will_implement.txt
+test
+tests/
+dist/
+
+# Backup and editor history files
+*.bak
+*.backup
+*.tmp
+.history/
+**/.history/
