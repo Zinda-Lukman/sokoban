@@ -6,8 +6,8 @@
 
 [build.environment]
   # Set these in Netlify UI or define here with defaults
-  VITE_API_BASE_URL = "https://sokoban-cloudflare-api.lookmans.workers.dev"
-  VITE_CLIENT_API_KEY = "replace-with-your-client-api-key"
+  VITE_API_BASE_URL = ""
+  VITE_CLIENT_API_KEY = ""
 
 [[redirects]]
   # Redirect API calls to your backend server

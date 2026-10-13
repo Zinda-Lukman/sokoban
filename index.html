@@ -39,7 +39,7 @@
       // These are injected by webpack or set in .env file
       window.APP_CONFIG = {
             apiBaseUrl: typeof process !== 'undefined' && process.env?.VITE_API_BASE_URL ? process.env.VITE_API_BASE_URL : 'https://sokoban-cloudflare-api.lookmans.workers.dev',
-            clientApiKey: typeof process !== 'undefined' && process.env?.VITE_CLIENT_API_KEY ? process.env.VITE_CLIENT_API_KEY : 'replace-with-your-client-api-key'
+            clientApiKey: typeof process !== 'undefined' && process.env?.VITE_CLIENT_API_KEY ? process.env.VITE_CLIENT_API_KEY : ''
         };
       window.CLIENT_API_KEY = window.CLIENT_API_KEY || window.APP_CONFIG.clientApiKey;
     </script>
