@@ -41,8 +41,20 @@ On victory ie a user has completed a level, the victory modal should appear
 - box seated on target✅
 - buy modal not closing info modal✅
 
-- Bricks poorly built poorly
-- Edit the instructions menu
+- Bricks poorly built poorly✅
+
+- Edit the instructions menu✅
+- Slow response of the game✅
+
+- Fix and search for unplayable games
+- Fix error in purchase - issue maybe in keys config
+- Deploy to vercel instead
+
+- Fix Products names✅
+- header✅
+- stats info div ✅
+- restarts timer✅
+
 
 - colouring of shops✅
 - trophy and recolouring victory✅

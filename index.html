@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="light dark">
+    
     <title>Sokoban - Modern Puzzle Game</title>
-
+     <!-- FavIcons-->
+      <link rel="icon" href="fav_icons/favicon.ico" sizes="32x32">
+      <link rel="icon" href="fav_icons/icon.svg" type="image/svg+xml">
+      <link rel="apple-touch-icon" href="fav_icons/apple-touch-icon.png">
+      <link rel="manifest" href="fav_icons/site.webmanifest">
     <!-- Modern UI Libraries -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
@@ -23,10 +28,10 @@
 
 
     <!-- Modern CSS -->
-    <link rel="stylesheet" href="style/theme.css">
-    <link rel="stylesheet" href="style/gamify.css">
-    <link rel="stylesheet" href="style/info-button.css">
-    <link rel="stylesheet" href="style/trophy.css">
+    <link rel="stylesheet" href="style/theme.css?v=2026-10-13">
+    <link rel="stylesheet" href="style/gamify.css?v=2026-10-13">
+    <link rel="stylesheet" href="style/info-button.css?v=2026-10-13">
+    <link rel="stylesheet" href="style/trophy.css?v=2026-10-13">
     
 
     <script>
@@ -34,7 +39,7 @@
       // These are injected by webpack or set in .env file
       window.APP_CONFIG = {
             apiBaseUrl: typeof process !== 'undefined' && process.env?.VITE_API_BASE_URL ? process.env.VITE_API_BASE_URL : 'https://sokoban-cloudflare-api.lookmans.workers.dev',
-            clientApiKey: typeof process !== 'undefined' && process.env?.VITE_CLIENT_API_KEY ? process.env.VITE_CLIENT_API_KEY : ''
+            clientApiKey: typeof process !== 'undefined' && process.env?.VITE_CLIENT_API_KEY ? process.env.VITE_CLIENT_API_KEY : 'replace-with-your-client-api-key'
         };
       window.CLIENT_API_KEY = window.CLIENT_API_KEY || window.APP_CONFIG.clientApiKey;
     </script>
@@ -291,7 +296,7 @@
                         <div class="instruction-icon hero-icon">🎮</div>
                         <div class="instruction-text">
                             <h3>How to Play</h3>
-                            <div class="control-row" aria-label="Movement controls">⬆️ ⬇️ ➡️ ⬅️</div>
+                            <div class="control-row" aria-label="Movement controls">⬆️➡️⬇️⬅️</div>
                             <p>Use the arrow keys or touch controls to move the player through each puzzle and reach every checkpoint.</p>
                         </div>
                     </div>
@@ -300,20 +305,23 @@
                         <div class="instruction-text">
                             <h3>Push Boxes</h3>
                             <p>Push every box onto a checkpoint square to complete the level.</p>
+                            <p>Use the arrow keys on the keyboard/ swipe to the desired direction to move the player around the grid. The next level will load when all boxes are placed on checkpoints. 
+                            If you get stuck, click the Reset Level button on the right to restart the level.</p>
                         </div>
                     </div>
                     <div class="instruction-item">
                         <div class="instruction-icon">✅</div>
                         <div class="instruction-text">
                             <h3>Game Flow</h3>
-                            <p>Use undos, referrals, and stars to keep progressing. Leaderboards and achievements are available from the bottom navigation.</p>
+                            <p>Use undos, skips, and restarts to help you along the way.</p>
                         </div>
                     </div>
                     <div class="instruction-item">
                         <div class="instruction-icon">📱</div>
                         <div class="instruction-text">
-                            <h3>Mini App Notes</h3>
-                            <p>This layout is designed for Telegram and mobile screens, with responsive controls and a compact bottom navigation bar.</p>
+                            <h3>About the game</h3>
+                            <p>Sokoban is a popular puzzle game developed by Hiroyuki Imabayashi in 1981. The goal of the game is to move all boxes on the screen to their designated checkpoints.</p>
+                            <p>This version was forked for Paskhaver on Github</p>
                         </div>
                     </div>
                 </div>
@@ -537,12 +545,12 @@
                     <button class="btn btn-primary" id="buy-skips-button" role="menuitem" hidden>Buy SKips</button>
                 </div>
 
-                <div class="limit-modal-item" id="limit-modal-restarts">
+                <div class="limit-modal-item-alone" id="limit-modal-restarts">
                     <span class="info-text" id="modal-info-restarts"></span>
                     <button class="btn btn-primary" id="preview-restart-modal-btn" role="menuitem" hidden>Buy Restarts</button>
                 </div>
 
-                <div class="limit-modal-item" id="limit-modal-undos">
+                <div class="limit-modal-item-alone" id="limit-modal-undos">
                     <span class="info-text" id="modal-info-undos"></span>
                      <button class="btn btn-primary" id="header-buy-undos-btn" role="menuitem" hidden>Buy UNDOS</button>
                 </div>
@@ -565,7 +573,7 @@
                         <div class="header-progress">
                             <div class="header-progress-fill" id="restart-modal-progress-fill" style="width:0%"></div>
                         </div>
-                        <span class="stat-value" id="restart-modal-progress-text">0/3</span>
+                        <span class="stat-value" id="restart-modal-progress-text">3/3</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">Next Restart In:</span>
@@ -576,7 +584,21 @@
         </section>
     </div>
 
-    <script type="module" src="./lib/sokoban.js"></script>
+    <script type="module" src="./lib/sokoban.js?v=2026-10-13"></script>
+    <script>
+      const isLocalDev = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
+      const APP_VERSION = '2026-10-13';
+
+      if ('serviceWorker' in navigator && !isLocalDev) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register(`./sw.js?v=${APP_VERSION}`).then((registration) => {
+            registration.update();
+          }).catch(() => {
+            // Keep the game functional even if service worker registration fails.
+          });
+        });
+      }
+    </script>
 </body>
 <!-- Header Actions Modal (moved out of header for modal-only display) -->
 <div id="header-actions-modal" class="header-actions-modal" hidden>

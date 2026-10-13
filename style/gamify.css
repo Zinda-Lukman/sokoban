@@ -88,7 +88,7 @@
       line-height:.95;
       letter-spacing:.03em;
       text-transform:uppercase;
-      max-width:10ch;
+      max-width:25ch;
       animation:fadeUp .8s .25s both;
       text-shadow:0 0 24px rgba(87,232,255,.12);
     }

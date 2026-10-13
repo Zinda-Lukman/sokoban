@@ -438,7 +438,7 @@ button, .nav-item, .game-canvas, input, select, textarea {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 1.55rem;
+  font-size: 1.0rem;
   letter-spacing: 0.08em;
   line-height: 1;
 }
@@ -635,6 +635,18 @@ button, .nav-item, .game-canvas, input, select, textarea {
 .limit-modal-item {
   display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid rgba(15,23,36,0.08);border-radius:12px;background:var(--final-bg-2)
 }
+.limit-modal-item-alone{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  width: 100%;
+  padding:10px 12px;
+  border:1px solid rgba(15,23,36,0.08);
+  border-radius:12px;
+  background:var(--final-bg-2)
+}
+
 #stats-div{
   background: var(--bg-1);
 }
