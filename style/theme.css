@@ -657,7 +657,7 @@ button, .nav-item, .game-canvas, input, select, textarea {
   position:fixed;
   left:0;
   right:0;
-  bottom:0;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
   z-index:1400;
   display:flex;
   align-items:center;
@@ -668,6 +668,7 @@ button, .nav-item, .game-canvas, input, select, textarea {
   backdrop-filter:blur(10px);
   border-top:1px solid var(--bottom-nav-border);
   box-shadow:0 -10px 24px rgba(2,6,23,0.18);
+  padding-bottom: 8px;
 }
 
 .nav-item{
@@ -685,6 +686,7 @@ button, .nav-item, .game-canvas, input, select, textarea {
   font-weight:700;
   cursor:pointer;
   white-space:nowrap;
+  transform: translateY(-6px);
 }
 .nav-item span{font-size:inherit;line-height:1.05; color:var(--bottom-nav-text);}
 .nav-item:hover, .nav-item:focus-visible{background:rgba(6,182,212,0.14);outline:none}

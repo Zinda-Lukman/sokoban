@@ -39,7 +39,7 @@
       // These are injected by webpack or set in .env file
       window.APP_CONFIG = {
             apiBaseUrl: typeof process !== 'undefined' && process.env?.VITE_API_BASE_URL ? process.env.VITE_API_BASE_URL : 'https://sokoban-cloudflare-api.lookmans.workers.dev',
-            clientApiKey: typeof process !== 'undefined' && process.env?.VITE_CLIENT_API_KEY ? process.env.VITE_CLIENT_API_KEY : ''
+            clientApiKey: typeof process !== 'undefined' && process.env?.VITE_CLIENT_API_KEY ? process.env.VITE_CLIENT_API_KEY : 'replace-with-your-client-api-key'
         };
       window.CLIENT_API_KEY = window.CLIENT_API_KEY || window.APP_CONFIG.clientApiKey;
     </script>
@@ -341,6 +341,7 @@
         </section>
     </main>
 
+   
     <nav class="mobile-bottom-nav" aria-label="Bottom navigation" id="footerNav">
         <button class="nav-item" id="home-nav-btn" type="button">🏠<span>Home</span></button>
         <button class="nav-item" id="instructions-btn" type="button">ℹ️<span>About</span></button>
