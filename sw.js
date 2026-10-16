@@ -1,5 +1,5 @@
-const CACHE_NAME = 'sokoban-shell-v2026-10-13';
-const APP_VERSION = '2026-10-13';
+const CACHE_NAME = 'sokoban-shell-v2026-10-16';
+const APP_VERSION = '2026-10-16';
 
 const APP_SHELL = [
   './',
@@ -25,6 +25,7 @@ const APP_SHELL = [
   './PNG/Player/player_04.png',
   './PNG/Player/player_13.png',
   './PNG/Player/player_16.png',
+  './PNG/share_image.png',
   'https://telegram.org/js/telegram-web-app.js',
   'https://code.createjs.com/createjs-2015.11.26.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js',
