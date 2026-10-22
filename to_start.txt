@@ -59,3 +59,5 @@ On victory ie a user has completed a level, the victory modal should appear
 - colouring of shops✅
 - trophy and recolouring victory✅
 
+
+Notify admin on new users
