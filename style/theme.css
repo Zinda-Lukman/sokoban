@@ -631,6 +631,7 @@ button, .nav-item, .game-canvas, input, select, textarea {
 .custom-package-row label{font-weight:700;font-size:0.9rem}
 .custom-package-row input{width:92px;padding:8px 10px;border:1px solid rgba(15,23,36,0.12);border-radius:10px}
 .gen-shop-buy-btn{padding:8px 12px;border-radius:10px;font-size:0.88rem}
+.gen-shop-buy-btn2{padding:8px 12px;border-radius:10px;font-size:0.99rem}
 
 .limit-modal-item {
   display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid rgba(15,23,36,0.08);border-radius:12px;background:var(--final-bg-2)
