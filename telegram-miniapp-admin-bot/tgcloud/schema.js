@@ -35,6 +35,28 @@ export const sessions = table('sessions', {
   source: text('source').default('mini_app'),
 }, (t) => ({ userIdx: index('sessions_user_idx').on(t.userId) }));
 
+export const gameState = table('game_state', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  userId: text('user_id').notNull().unique(),
+  data: text('data'),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().default(sql`(unixepoch())`),
+}, (t) => ({
+  userIdx: index('game_state_user_idx').on(t.userId),
+  updatedIdx: index('game_state_updated_idx').on(t.updatedAt),
+}));
+
+export const leaderboard = table('leaderboard', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  userId: text('user_id').notNull().unique(),
+  displayName: text('display_name'),
+  completedLevels: integer('completed_levels').notNull().default(0),
+  stars: integer('stars').notNull().default(0),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().default(sql`(unixepoch())`),
+}, (t) => ({
+  userIdx: index('leaderboard_user_idx').on(t.userId),
+  completedIdx: index('leaderboard_completed_idx').on(t.completedLevels),
+}));
+
 export const events = table('events', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   userId: integer('user_id').notNull(),

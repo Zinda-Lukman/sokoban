@@ -3,6 +3,7 @@ import { payments } from '../schema.js';
 import { MINI_APP_URL, APP_TITLE, isAdmin } from '../lib/config.js';
 import { touchUser } from '../lib/users.js';
 import { home, analyticsPage } from '../lib/dashboard.js';
+import { notifyAdmins } from '../lib/admin.js';
 
 async function sendStart(chatId, user) {
   if (user.isBanned) {
@@ -25,18 +26,25 @@ export default async function (message) {
   if (message.successful_payment) {
     await touchUser(message.from);
     const p = message.successful_payment;
-    await db.insert(payments).values({
+    const paymentRecord = {
       userId: Number(message.from.id),
       chargeId: p.telegram_payment_charge_id,
       providerChargeId: p.provider_payment_charge_id || null,
       amount: Number(p.total_amount),
       currency: p.currency,
       invoicePayload: p.invoice_payload || null,
-    }).onConflictDoUpdate({
+    };
+    await db.insert(payments).values(paymentRecord).onConflictDoUpdate({
       target: payments.chargeId,
       set: { chargeId: p.telegram_payment_charge_id },
     }).run();
     await api.sendMessage({ chat_id: message.chat.id, text: '✅ Payment received. Thank you!' });
+    await notifyAdmins([
+      '💳 Successful payment received',
+      `User: ${message.from.id}`,
+      `Amount: ${paymentRecord.amount} ${paymentRecord.currency}`,
+      `Payload: ${paymentRecord.invoicePayload || 'n/a'}`,
+    ].join('\n'));
     return;
   }
 
