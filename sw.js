@@ -1,5 +1,5 @@
-const CACHE_NAME = 'sokoban-shell-v2026-10-16';
-const APP_VERSION = '2026-10-16';
+const CACHE_NAME = 'sokoban-shell-v2026-11-11';
+const APP_VERSION = '2026-11-11';
 
 const APP_SHELL = [
   './',
