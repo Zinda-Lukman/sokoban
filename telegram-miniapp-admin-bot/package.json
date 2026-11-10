@@ -1,0 +1,16 @@
+{
+  "name": "telegram-miniapp-admin-bot",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node scripts/check-project.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "tg:status": "tgcloud status",
+    "tg:push": "tgcloud push",
+    "tg:migrate": "tgcloud migrate"
+  },
+  "devDependencies": {
+    "@tgcloud/cli": "^0.2.0"
+  }
+}
