@@ -44,9 +44,118 @@
       window.CLIENT_API_KEY = window.CLIENT_API_KEY || window.APP_CONFIG.clientApiKey;
     </script>
 
+    <style>
+      #boot-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 4000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(10, 15, 33, 0.72);
+        backdrop-filter: blur(10px);
+        transition: opacity 0.35s ease, visibility 0.35s ease;
+      }
+
+      #boot-loader.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .boot-loader-card {
+        width: min(420px, 82vw);
+        padding: 24px 22px 20px;
+        border-radius: 22px;
+        background: rgba(18, 24, 39, 0.82);
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        box-shadow: 0 22px 50px rgba(15, 23, 42, 0.35);
+      }
+
+      .boot-loader-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .boot-loader-logo {
+        width: 18px;
+        height: 18px;
+        border-radius: 6px;
+        background: linear-gradient(135deg, #8b5cf6, #38bdf8);
+        box-shadow: 0 0 18px rgba(139, 92, 246, 0.65);
+      }
+
+      .boot-loader-title {
+        margin: 0;
+        font-size: 0.9rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(241, 245, 249, 0.82);
+      }
+
+      .boot-loader-status {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #a5f3fc;
+      }
+
+      .boot-progress-track {
+        width: 100%;
+        height: 12px;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.18);
+        overflow: hidden;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .boot-progress-fill {
+        width: 0%;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #8b5cf6, #38bdf8, #34d399);
+        box-shadow: 0 0 18px rgba(59, 130, 246, 0.55);
+        transition: width 0.2s ease;
+      }
+
+      .boot-loader-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 12px;
+        font-size: 0.76rem;
+        color: rgba(226, 232, 240, 0.8);
+      }
+
+      #start-game-btn:disabled {
+        opacity: 0.7;
+        cursor: wait;
+        filter: saturate(0.7);
+      }
+    </style>
+
 </head>
 
 <body  id="color-change">
+    <div id="boot-loader" aria-live="polite" aria-label="Loading game assets">
+        <div class="boot-loader-card">
+            <div class="boot-loader-header">
+                <div class="boot-loader-logo" aria-hidden="true"></div>
+                <p class="boot-loader-title">Loading game</p>
+                <span class="boot-loader-status" id="boot-progress-text">0%</span>
+            </div>
+            <div class="boot-progress-track" aria-hidden="true">
+                <div class="boot-progress-fill" id="boot-progress-fill"></div>
+            </div>
+            <div class="boot-loader-meta">
+                <span>Preparing assets</span>
+                <span id="boot-progress-label">Stand by</span>
+            </div>
+        </div>
+    </div>
+
     <!-- Modern Header with Glass Effect -->
     <header class="modern-header">
         <div class="header-content">
